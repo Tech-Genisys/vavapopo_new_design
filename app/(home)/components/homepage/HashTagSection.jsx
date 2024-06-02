@@ -1,6 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+
 import HashTagCard from "./HashTag/HashTagCard";
 
 const HashTagSection = () => {
@@ -40,7 +39,7 @@ const HashTagSection = () => {
       </div>
       <div className="bg-green-700 py-8 flex justify-center gap-3 text-white w-full">
         <h1 className="font-semibold text-base sm:text-2xl ">
-          FOLLOW VAVAPOPP :
+          FOLLOW VAVAPOPO :
         </h1>
         <img src="/footer/facebookIcon.svg" alt="" />
         <img src="/footer/instaIcon.svg" alt="" />
