@@ -1,5 +1,4 @@
 "use client";
-import { ParallaxLayer } from "@react-spring/parallax";
 import Image from "next/image";
 import Navbar from "../navbar";
 import { useTypewriter, Cursor } from "react-simple-typewriter";
@@ -18,7 +17,6 @@ function Herosection() {
     typeSpeed: 30,
     deleteSpeed: 30,
   });
-  const backgroundStyle = {};
   return (
     <main
       className="min-h-[600px] md:min-h-screen py-20 flex items-center flex-col bg-gradient-to-b from-[#F0FFF0] to-[#CDFECF] bg-center bg-cover relative"
@@ -48,7 +46,11 @@ function Herosection() {
           </span>
         </p>
       </h2>
-      <p className="w-[90%] max-w-xl text-xs mt-4 sm:mt-0 md:text-sm text-center font-medium mb-20 z-10">
+      <p
+        className="w-[90%] max-w-xl text-xs mt-4 sm:mt-0 md:text-sm text-center font-medium mb-20 z-10"
+        data-aos="fade-up"
+        data-aos-duration="1000"
+      >
         Dive into cultural, and heritage tours. Experience the warmth of local
         hospitality, explore rich traditions.
       </p>
@@ -83,7 +85,11 @@ function Herosection() {
           </div>
         </div> */}
 
-        <div className="flex justify-center z-10">
+        <div
+          className="flex justify-center z-10"
+          data-aos="zoom-in"
+          data-aos-durtaion="1000"
+        >
           <button className="py-2 px-16 bg-[#248C00] rounded-md text-white font-semibold animate-bounce hover:bg-green-700">
             Explore
           </button>

@@ -11,7 +11,11 @@ function Navbar() {
     setNavToggle(!navToggle);
   };
   return (
-    <nav className="flex justify-between px-10 py-2 absolute top-0 z-20 w-full bg-black bg-opacity-40 xl:bg-opacity-0">
+    <nav
+      className="flex justify-between px-10 py-2 absolute top-0 z-20 w-full bg-black bg-opacity-40 xl:bg-opacity-0"
+      data-aos="fade-down"
+      data-aos-duration="1000"
+    >
       <Link href="/">
         <p className="font-semibold text-white bg-black bg-opacity-30 px-2 py-1 rounded-md">
           VAVAPOPO
