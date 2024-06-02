@@ -1,19 +1,10 @@
 "use client";
 import React from "react";
-import { useInView, animated, useSpring } from "@react-spring/web";
 import Link from "next/link";
 
 const PlanSection = () => {
-  const [ref, inView] = useInView();
-  const styles = useSpring({
-    scale: inView ? 1.5 : 0,
-    config: {
-      tension: 300,
-    },
-  });
-
   return (
-    <div className="w-full flex justify-center min-h-[800px] md:min-h-screen relative z-10 bg-[#F0FFF1]">
+    <div className="w-full flex justify-center min-h-[800px] md:min-h-screen relative z-10 bg-[#F0FFF1] overflow-hidden">
       <div className="flex  items-center justify-center sm:justify-normal flex-col gap-3 sm:mt-36 lg:mt-20 px-8">
         <h1 className="text-center max-w-md font-bold text-2xl sm:text-4xl tracking-wider">
           Ready to plan your trip in half the time ?
@@ -28,15 +19,7 @@ const PlanSection = () => {
           </button>
         </Link>
       </div>
-      <animated.div style={styles} ref={ref}>
-        {inView ? (
-          <img
-            src="/plan/kakka.svg"
-            alt=""
-            className="absolute -z-20 top-64 right-48 w-1/12"
-          />
-        ) : null}
-      </animated.div>
+
       <img
         src="/plan/cloud.svg"
         alt=""
@@ -56,6 +39,7 @@ const PlanSection = () => {
         src="/plan/kakka.svg"
         alt=""
         className="absolute -z-20 top-64 right-48 w-1/12"
+        data-aos="fade-left"
       />
       <div className="absolute -bottom-1 -z-10 w-full">
         <img src="/plan/planHero.svg" alt="" className="w-full" />
