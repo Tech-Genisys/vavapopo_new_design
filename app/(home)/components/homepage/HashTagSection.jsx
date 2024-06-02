@@ -38,15 +38,13 @@ const HashTagSection = () => {
           }
         />
       </div>
-      <div className="bg-green-700 py-8 flex justify-center text-white">
-        <div className="flex gap-3">
-          <h1 className="font-semibold text-base sm:text-2xl ">
-            FOLLOW VAVAPOPP :
-          </h1>
-          <img src="/footer/facebookIcon.svg" alt="" />
-          <img src="/footer/instaIcon.svg" alt="" />
-          <img src="/footer/linkedInIcon.svg" alt="" />
-        </div>
+      <div className="bg-green-700 py-8 flex justify-center gap-3 text-white w-full">
+        <h1 className="font-semibold text-base sm:text-2xl ">
+          FOLLOW VAVAPOPP :
+        </h1>
+        <img src="/footer/facebookIcon.svg" alt="" />
+        <img src="/footer/instaIcon.svg" alt="" />
+        <img src="/footer/linkedInIcon.svg" alt="" />
       </div>
     </div>
   );
