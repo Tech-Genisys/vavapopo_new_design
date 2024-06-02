@@ -18,12 +18,12 @@ function AboutCard({ src, title, description }) {
 function Aboutsection() {
   return (
     <main
-      className="min-h-[600px] lg:min-h-screen bg-[#003329] z-10 text-white py-32 px-5 xl:px-0"
+      className="min-h-[600px] lg:min-h-screen bg-[#003329] z-10 text-white py-32 px-5 xl:px-0 overflow-hidden"
       id="about"
     >
       <div className="max-w-5xl mx-auto">
         <h2 className="text-white text-3xl md:text-5xl mb-10">Who We Are</h2>
-        <p className="text-sm md:text-base" data-aos="fade-right">
+        <p className="text-sm md:text-base" data-aos="fade">
           Experience the cultural heritage of Kerala like never before with us.
           Our unique vacations immerse you in the daily life of locals, offering
           authentic and memorable stays in rural areas beyond typical tourist
