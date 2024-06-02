@@ -1,11 +1,24 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReviewCard from "./Review/ReviewCard";
 import { useSpringCarousel } from "react-spring-carousel";
+import { db } from "@/app/firebase/firebaseinit";
+import { collection, getDocs, limit } from "firebase/firestore";
 
-const ReviewRapingDiv = ({ reviews, isLoading }) => {
+const ReviewRapingDiv = () => {
+  const [reviews, setReivews] = useState([]);
+  const [isReiviewLoading, setIsReviewLoading] = useState(true);
+  const getReviews = async () => {
+    const res = await getDocs(collection(db, "review"), limit(5));
+    setReivews(res.docs.map((doc) => doc.data()));
+    setIsReviewLoading(false);
+  };
+
+  useEffect(() => {
+    getReviews();
+  }, []);
   if (!reviews.length || reviews.length < 3) return <div></div>;
-  if (isLoading) return <p>Loading..</p>;
+  if (isReiviewLoading) return <p>Loading..</p>;
 
   return <ReviewSection reviews={reviews} />;
 };
@@ -38,7 +51,7 @@ const ReviewSection = ({ reviews }) => {
 
   return (
     <div
-      className=" flex justify-center items-center py-24 sm:px-0 bg-[#F0FFF1]"
+      className=" flex justify-center items-center py-24 sm:px-0 bg-[#F0FFF1] overflow-hidden"
       id="review"
     >
       <div className="max-w-5xl flex flex-col items-center  px-7">

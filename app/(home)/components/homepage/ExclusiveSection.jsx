@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import ExclusivePackCarousel from "./ExclusivePack/ExclusivePackCarousel";
 import { collection, getDocs, limit, query, where } from "firebase/firestore";
@@ -30,7 +31,7 @@ const ExclusiveSection = () => {
   }, []);
   if (!packData.length) return <div></div>;
   return (
-    <div className="w-full flex justify-center min-h-screen bg-[#F0FFF1] py-0 lg:py-24">
+    <div className="w-full flex justify-center min-h-screen bg-[#F0FFF1] py-0 lg:py-24 overflow-hidden">
       <div className="w-full max-w-5xl px-7 py-8 relative flex flex-col items-center">
         <div className="w-full bg-[#e4ffe6] absolute top-8 bottom-60 rounded-3xl max-h-[600px]"></div>
         <div className="flex flex-col items-center py-14 max-w-xl z-10">
