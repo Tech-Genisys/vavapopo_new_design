@@ -23,7 +23,7 @@ function Aboutsection() {
     >
       <div className="max-w-5xl mx-auto">
         <h2 className="text-white text-3xl md:text-5xl mb-10">Who We Are</h2>
-        <p className="text-sm md:text-base">
+        <p className="text-sm md:text-base" data-aos="fade-right">
           Experience the cultural heritage of Kerala like never before with us.
           Our unique vacations immerse you in the daily life of locals, offering
           authentic and memorable stays in rural areas beyond typical tourist
@@ -34,26 +34,34 @@ function Aboutsection() {
         </p>
         <div className="flex justify-center lg:block">
           <div className="mt-20 grid grid-cols-2 gap-10 lg:grid-cols-4">
-            <AboutCard
-              src="culture.svg"
-              title="Explore the culture"
-              description="Explore the native culture of your destination with our packages, tailored to enrich your travel experience."
-            />
-            <AboutCard
-              src="custom.svg"
-              title="Customize your trip"
-              description="We provide custom packages, tailored to ensure you fully enjoy, relax, and make the most of your holidays."
-            />
-            <AboutCard
-              src="unique.svg"
-              title="Unique packages"
-              description="Experience one-of-a-kind adventures with our unique packages, offering unforgettable memories."
-            />
-            <AboutCard
-              src="support.svg"
-              title="Customer support"
-              description="Dedicated assistance available 24/7 to address your inquiries, ensuring a seamless and satisfying customer experience."
-            />
+            <div data-aos="fade-right">
+              <AboutCard
+                src="culture.svg"
+                title="Explore the culture"
+                description="Explore the native culture of your destination with our packages, tailored to enrich your travel experience."
+              />
+            </div>
+            <div data-aos="fade-right">
+              <AboutCard
+                src="custom.svg"
+                title="Customize your trip"
+                description="We provide custom packages, tailored to ensure you fully enjoy, relax, and make the most of your holidays."
+              />
+            </div>
+            <div data-aos="fade-left">
+              <AboutCard
+                src="unique.svg"
+                title="Unique packages"
+                description="Experience one-of-a-kind adventures with our unique packages, offering unforgettable memories."
+              />
+            </div>
+            <div data-aos="fade-left">
+              <AboutCard
+                src="support.svg"
+                title="Customer support"
+                description="Dedicated assistance available 24/7 to address your inquiries, ensuring a seamless and satisfying customer experience."
+              />
+            </div>
           </div>
         </div>
       </div>

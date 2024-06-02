@@ -1,6 +1,8 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 import "react-toastify/dist/ReactToastify.css";
+import AosInit from "./components/aos";
+import "aos/dist/aos.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,13 +14,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <head>
-        <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-      </head>
       <body className={inter.className}>
+        <AosInit />
         {children}
-        <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-        <script>AOS.init();</script>
       </body>
     </html>
   );
