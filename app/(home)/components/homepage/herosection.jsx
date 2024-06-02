@@ -36,6 +36,7 @@ function Herosection() {
         width={1000}
         height={1000}
         className="w-[80%] h-fit absolute top-0 right-0"
+        data-aos="fade-down"
       />
       <h2 className="text-3xl w-[70%] sm:text-3xl md:text-4xl lg:text-5xl max-w-xl text-center font-bold text-whi mb-10">
         Discover Kerala's <br />
