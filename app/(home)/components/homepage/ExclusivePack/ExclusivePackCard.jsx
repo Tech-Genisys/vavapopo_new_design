@@ -18,13 +18,13 @@ const ExclusivePackCard = ({ id, image, name, state, price, size }) => {
             20 + top hotel
           </h1>
           <div className="flex gap-1 items-baseline">
-            <h1 className="font-black text-[#56BD80] text-lg text-center ">
+            <h1 className="font-bold text-[#2A9134] text-lg text-center ">
               Starting ₹{price}
             </h1>
             {/* <h1 className="font-black text-gray-500  ">Per Night </h1> */}
           </div>
           <Link href={`/trip/${id}`}>
-            <button className="bg-[#56BD80] rounded-full px-8 py-1 text-white font-bold mt-3 ">
+            <button className="bg-[#2A9134] rounded-full px-8 py-1 text-white font-bold mt-3 hover:scale-105 hover:shadow-xl">
               View Pack
             </button>
           </Link>

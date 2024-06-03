@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Carousel, Typography, Button } from "@material-tailwind/react";
+import { Carousel } from "@material-tailwind/react";
 import Image from "next/image";
 
 const bgImageData = [
@@ -31,8 +30,8 @@ function Fullpageimagesection() {
   return (
     <main className="">
       <Carousel className="max-h-screen" autoplay autoplayDelay={10000} loop>
-        {bgImageData.map((e) => (
-          <>
+        {bgImageData.map((e, index) => (
+          <div key={index}>
             <div className="relative w-full max-h-screen">
               <Image
                 height={1500}
@@ -42,7 +41,11 @@ function Fullpageimagesection() {
                 alt="image 3"
                 className=" w-full object-cover max-h-screen min-h-[500px]"
               />
-              <div className="max-w-5xl mx-auto w-full flex justify-center md:justify-start absolute bottom-8   md:bottom-24 md:left-28 ">
+              <div
+                className="max-w-5xl mx-auto w-full flex justify-center md:justify-start absolute bottom-8   md:bottom-24 md:left-28 "
+                data-aos="zoom-in"
+                data-aos-duration="500"
+              >
                 <div className="p-4 rounded-md bg-[#003329] bg-opacity-65 text-white w-[300px] md:w-full max-w-[400px]">
                   <h3 className=" sm:text-xl font-semibold mb-1 sm:mb-5">
                     {e.title}
@@ -51,7 +54,7 @@ function Fullpageimagesection() {
                 </div>
               </div>
             </div>
-          </>
+          </div>
         ))}
       </Carousel>
     </main>

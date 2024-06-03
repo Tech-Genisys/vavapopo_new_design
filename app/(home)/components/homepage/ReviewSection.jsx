@@ -55,7 +55,11 @@ const ReviewSection = ({ reviews }) => {
       id="review"
     >
       <div className="max-w-5xl flex flex-col items-center  px-7">
-        <h1 className="text-3xl font-semibold max-w-md text-center">
+        <h1
+          className="text-3xl font-semibold max-w-md text-center"
+          data-aos="fade"
+          data-aos-duration="500"
+        >
           Traveler Review After Successful Tours
         </h1>
         <div className="flex w-full justify-center mt-5 lg:justify-end mb-8">

@@ -31,14 +31,22 @@ const ExclusiveSection = () => {
   }, []);
   if (!packData.length) return <div></div>;
   return (
-    <div className="w-full flex justify-center min-h-screen bg-[#F0FFF1] py-0 lg:py-24 overflow-hidden">
+    <div className="w-full flex justify-center min-h-screen bg-[#F0FFF1] py-0 lg:py-24 overflow-hidden border-b border-[#5BBA6F]">
       <div className="w-full max-w-5xl px-7 py-8 relative flex flex-col items-center">
-        <div className="w-full bg-[#e4ffe6] absolute top-8 bottom-60 rounded-3xl max-h-[600px]"></div>
+        <div className="w-full bg-[#b3ffc3] absolute top-8 bottom-60 rounded-3xl max-h-[600px]"></div>
         <div className="flex flex-col items-center py-14 max-w-xl z-10">
-          <h1 className="font-bold text-3xl tracking-wide text-center">
+          <h1
+            className="font-bold text-3xl tracking-wide text-center"
+            data-aos="fade-up"
+            data-aos-duration="500"
+          >
             Exclusive packs recommendations from our experienced Travel Experts
           </h1>
-          <h1 className="text-center mt-6 font-semibold text-sm tracking-wider">
+          <h1
+            className="text-center mt-6 font-semibold text-sm tracking-wider"
+            data-aos="fade-up"
+            data-aos-duration="800"
+          >
             Expertly curated travel packs, personalized by seasoned Travel
             Experts, offering exclusive recommendations for unforgettable
             journeys.
