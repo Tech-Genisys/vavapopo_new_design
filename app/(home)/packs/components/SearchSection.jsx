@@ -2,20 +2,24 @@
 
 import React, { useState } from "react";
 
-const SearchSection = ({ filter }) => {
-  const [destination, setDestination] = useState("");
-  const [days, setDays] = useState("");
-
+const SearchSection = ({
+  filter,
+  destination,
+  setDestination,
+  days,
+  setDays,
+}) => {
   const handleFilter = async (e) => {
     e.preventDefault();
     if (!destination && !days) return;
-    if (destination && !days) {
-      filter(destination, null);
-    } else if (!destination && days) {
-      filter(null, days);
-    } else {
-      filter(destination, days);
-    }
+    filter();
+    // if (destination && !days) {
+    //   filter();
+    // } else if (!destination && days) {
+    //   filter();
+    // } else {
+    //   filter();
+    // }
   };
   return (
     <div className="py-32">
@@ -68,7 +72,7 @@ const SearchSection = ({ filter }) => {
             </div>
 
             <button
-              className="bg-[#56BD80] px-5 py-1 text-lg font-bold text-white rounded-md border col-span-6 md:col-span-2 mt-2 hover:scale-105 hover:shadow-xl"
+              className="bg-[#248C00] px-5 py-1 text-lg font-bold text-white rounded-md border col-span-6 md:col-span-2 mt-2 hover:scale-105 hover:shadow-xl"
               type="submit"
             >
               Search
