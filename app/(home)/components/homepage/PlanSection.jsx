@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const PlanSection = () => {
   return (
-    <div className="w-full flex justify-center min-h-[500px] md:min-h-screen relative z-10 bg-[#F0FFF1] overflow-hidden">
+    <div className="w-full flex justify-center min-h-[500px] md:min-h-screen relative z-10 bg-background overflow-hidden">
       <div className="flex  items-center justify-center sm:justify-normal flex-col gap-3 sm:mt-16 lg:mt-10 px-8">
         <h1 className="text-center max-w-md font-bold text-2xl sm:text-4xl tracking-wider">
           Ready to plan your trip in half the time ?

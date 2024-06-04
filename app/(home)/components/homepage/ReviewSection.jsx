@@ -51,7 +51,7 @@ const ReviewSection = ({ reviews }) => {
 
   return (
     <div
-      className=" flex justify-center items-center py-24 sm:px-0 bg-[#F0FFF1] overflow-hidden"
+      className=" flex justify-center items-center py-24 sm:px-0 bg-background overflow-hidden"
       id="review"
     >
       <div className="max-w-5xl flex flex-col items-center  px-7">

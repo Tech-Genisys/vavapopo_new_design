@@ -49,7 +49,7 @@ function Navbar() {
         </Link>
       </ul>
       <Link href="/packs">
-        <button className="hidden md:block py-2 px-6 rounded-md bg-[#248C00] text-sm font-medium text-white hover:scale-105 hover:shadow-lg">
+        <button className="hidden md:block py-2 px-6 rounded-md bg-foreground text-sm font-medium text-white hover:scale-105 hover:shadow-lg">
           Explore
         </button>
       </Link>

@@ -91,7 +91,7 @@ function Herosection() {
           data-aos="zoom-in"
           data-aos-durtaion="1000"
         >
-          <button className="py-2 px-16 bg-[#248C00] rounded-md text-white font-semibold animate-bounce hover:bg-green-700">
+          <button className="py-2 px-16 bg-foreground rounded-md text-white font-semibold animate-bounce hover:bg-green-700 border border-black border-opacity-10">
             Explore
           </button>
         </div>
