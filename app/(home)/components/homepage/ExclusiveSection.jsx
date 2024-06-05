@@ -31,9 +31,9 @@ const ExclusiveSection = () => {
   }, []);
   if (!packData.length) return <div></div>;
   return (
-    <div className="w-full flex justify-center min-h-screen bg-white py-0 lg:py-24 overflow-hidden border-b border-[#5BBA6F]">
+    <div className="w-full flex justify-center min-h-screen bg-background py-0 lg:py-24 overflow-hidden">
       <div className="w-full max-w-5xl px-7 py-8 relative flex flex-col items-center">
-        <div className="w-[98%] bg-gradient-to-b from-background to-transparent bg-opacity-20 absolute top-8 bottom-60 rounded-3xl max-h-[600px]"></div>
+        <div className="w-[98%] bg-gradient-to-b from-[#E0F9DC] to-transparent bg-opacity-20 absolute top-8 bottom-60 rounded-3xl max-h-[600px]"></div>
         <div className="flex flex-col items-center py-14 max-w-xl z-10">
           <h1
             className="font-bold text-3xl tracking-wide text-center"

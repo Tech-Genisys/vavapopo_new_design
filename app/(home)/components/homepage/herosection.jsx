@@ -19,7 +19,7 @@ function Herosection() {
   });
   return (
     <main
-      className="min-h-[600px] md:min-h-screen py-20 flex items-center flex-col bg-gradient-to-b from-[#F0FFF0] to-[#CDFECF] bg-center bg-cover relative"
+      className="min-h-[600px] md:min-h-screen py-20 flex items-center flex-col bg-gradient-to-b from-[#F0FFF0] to-[#CDFECF] bg-center bg-cover relative overflow-hidden"
       style={{ backgroundImage: "url('/hero/forest.jpg')" }}
     >
       <Navbar />

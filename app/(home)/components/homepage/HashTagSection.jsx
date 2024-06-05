@@ -4,7 +4,7 @@ import HashTagCard from "./HashTag/HashTagCard";
 
 const HashTagSection = () => {
   return (
-    <div className="w-full flex flex-col pt-24 pb-10 bg-background">
+    <div className="w-full flex flex-col py-10 bg-background overflow-hidden">
       <div className="bg-green-700 py-5 text-white">
         <h1 className="font-bold text-2xl sm:text-3xl text-center">
           {`Through Our Visitors' Eyes`}

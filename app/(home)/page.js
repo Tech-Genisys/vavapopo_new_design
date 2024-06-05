@@ -14,8 +14,8 @@ export default function Home() {
       <Aboutsection />
       <Fullpageimagesection />
       <ExclusiveSection />
-      <ReviewRapingDiv />
       <HashTagSection />
+      <ReviewRapingDiv />
       <PlanSection />
       <Footersection />
     </div>

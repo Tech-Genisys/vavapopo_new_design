@@ -29,7 +29,12 @@ const bgImageData = [
 function Fullpageimagesection() {
   return (
     <main className="">
-      <Carousel className="max-h-screen" autoplay autoplayDelay={10000} loop>
+      <Carousel
+        className="max-h-screen overflow-hidden"
+        autoplay
+        autoplayDelay={10000}
+        loop
+      >
         {bgImageData.map((e, index) => (
           <div key={index}>
             <div className="relative w-full max-h-screen">
