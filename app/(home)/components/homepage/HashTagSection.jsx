@@ -5,7 +5,7 @@ import HashTagCard from "./HashTag/HashTagCard";
 const HashTagSection = () => {
   return (
     <div className="w-full flex flex-col py-10 bg-background overflow-hidden">
-      <div className="bg-green-700 py-5 text-white">
+      <div className="bg-dark py-5 text-white">
         <h1 className="font-bold text-2xl sm:text-3xl text-center">
           {`Through Our Visitors' Eyes`}
         </h1>
@@ -55,7 +55,7 @@ const HashTagSection = () => {
           }
         />
       </div>
-      <div className="bg-green-700 py-8 flex justify-center gap-3 text-white w-full">
+      <div className="bg-dark py-8 flex justify-center gap-3 text-white w-full">
         <h1 className="font-semibold text-base">FOLLOW VAVAPOPO :</h1>
         <img src="/footer/facebookIcon.svg" alt="" />
         <img src="/footer/instaIcon.svg" alt="" />
