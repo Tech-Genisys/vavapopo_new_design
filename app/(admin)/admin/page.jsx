@@ -19,7 +19,6 @@ import {
   CountSkeleton,
 } from "@/app/(home)/components/cardSkeleton";
 import { signOut } from "firebase/auth";
-import { async } from "@firebase/util";
 
 function AdminPage() {
   const [showModal, setShowModal] = useState(false);
@@ -34,41 +33,50 @@ function AdminPage() {
   });
 
   const getBookingReq = async () => {
-    const q = query(
-      collection(db, "booking"),
-      where("status", "==", "request")
-    );
-    const res = await getDocs(q);
-    const resList = [];
-    for (const item of res.docs) {
-      const bookingData = item.data();
-      const prefferedPackage = doc(db, "packages", bookingData.package);
-      let prefferedPackageData = await getDoc(prefferedPackage);
-      if (prefferedPackageData.exists()) {
-        prefferedPackageData = prefferedPackageData.data().packageTitle;
-      } else {
-        prefferedPackageData = "custom";
+    try {
+      const q = query(
+        collection(db, "booking"),
+        where("status", "==", "request")
+      );
+      const res = await getDocs(q);
+      const resList = [];
+      for (const item of res.docs) {
+        const bookingData = item.data();
+        const prefferedPackage = doc(db, "packages", bookingData.package);
+        let prefferedPackageData = await getDoc(prefferedPackage);
+        if (prefferedPackageData.exists()) {
+          prefferedPackageData = prefferedPackageData.data().packageTitle;
+        } else {
+          prefferedPackageData = "custom";
+        }
+        resList.push({
+          id: item.id,
+          prefferedPackage: prefferedPackageData,
+          ...bookingData,
+        });
       }
-      resList.push({
-        id: item.id,
-        prefferedPackage: prefferedPackageData,
-        ...bookingData,
-      });
+      console.log(resList);
+      setBookinRequest(resList);
+      setBookinReqIsLoading(false);
+      setCountStat((prev) => ({ ...prev, pending: res.size }));
+    } catch (error) {
+      console.log(error.message);
+      setBookinReqIsLoading(false);
     }
-    console.log(resList);
-    setBookinRequest(resList);
-    setBookinReqIsLoading(false);
-    setCountStat((prev) => ({ ...prev, pending: res.size }));
   };
 
   const getCount = async () => {
-    const q = query(
-      collection(db, "booking"),
-      where("status", "==", "confirm")
-    );
-    const res = await getDocs(q);
-    setCountStat((prev) => ({ ...prev, confirm: res.size }));
-    setCountIsLoading(false);
+    try {
+      const q = query(
+        collection(db, "booking"),
+        where("status", "==", "confirm")
+      );
+      const res = await getDocs(q);
+      setCountStat((prev) => ({ ...prev, confirm: res.size }));
+      setCountIsLoading(false);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   useEffect(() => {

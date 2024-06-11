@@ -3,7 +3,7 @@ import React from "react";
 function Modal({ modalIsOpen, closeModal, children }) {
   if (!modalIsOpen) return null;
   return (
-    <div className="fixed top-0 left-0 w-full min-h-screen bg-black bg-opacity-70 flex items-center justify-center">
+    <div className="fixed top-0 left-0 w-full min-h-screen bg-black bg-opacity-70 flex items-center justify-center z-10">
       <div className="p-10 bg-gray-50 rounded-md w-full max-w-[400px] relative">
         <button
           className="text-white absolute top-3 right-3 hover:scale-110"
