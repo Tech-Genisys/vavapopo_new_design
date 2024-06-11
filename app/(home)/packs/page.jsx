@@ -22,7 +22,7 @@ const Page = () => {
   const [destination, setDestination] = useState("");
   const [days, setDays] = useState("");
   const [lastDoc, setLastDoc] = useState([]);
-  const [isMore, setIsMore] = useState(true);
+  const [isMore, setIsMore] = useState(false);
 
   const getPacks = async (lastVisibleDoc = null) => {
     const resList = [];
