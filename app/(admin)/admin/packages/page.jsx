@@ -133,7 +133,7 @@ function BookingPage() {
         </div>
       </div>
       <p className="mt-20">Top {PAGE_LIMIT} packages</p>
-      <div className="mt-5 rounded-xl flex flex-col gap-5 bg-white">
+      <div className="mt-5 rounded-xl flex flex-col gap-5 bg-white w-fit">
         {isLoading ? (
           <div className="flex flex-col gap-4">
             <PackageCardSkeleton />
