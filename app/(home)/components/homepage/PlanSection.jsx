@@ -4,17 +4,17 @@ import Link from "next/link";
 
 const PlanSection = () => {
   return (
-    <div className="w-full flex justify-center min-h-[500px] md:min-h-screen relative z-10 bg-background overflow-hidden">
+    <div className="w-full flex justify-center min-h-[600px] md:min-h-screen relative z-10 bg-background overflow-hidden">
       <div className="flex  items-center justify-center sm:justify-normal flex-col gap-3 sm:mt-16 lg:mt-10 px-8">
         <h1 className="text-center max-w-md font-bold text-2xl sm:text-4xl tracking-wider">
           Ready to plan your trip in half the time ?
         </h1>
-        <p className="font-medium  text-blue-gray-200  text-base sm:text-lg max-w-md text-center">
-          So many trip, so little time, Let Trip lt worry about the details , so
-          you don’t have to
+        <p className="font-medium  text-gray-800  text-base sm:text-lg max-w-md text-center">
+          So many trip, so little time, Let Vavapopo worry about the details ,
+          so you don’t have to
         </p>
         <Link href="/booking/custom">
-          <button className="bg-[#56BD80] text-white font-semibold text-lg px-4 py-1 rounded-full shadow mt-6">
+          <button className="bg-foreground text-white font-semibold text-lg px-4 py-1 rounded-full shadow mt-10 hover:scale-105 hover:shadow-xl">
             Get a custom package
           </button>
         </Link>

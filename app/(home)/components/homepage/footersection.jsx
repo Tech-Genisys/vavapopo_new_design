@@ -55,15 +55,14 @@ const Footersection = () => {
 
   return (
     <div className="w-full bg-[#003329] flex justify-center text-white">
-      <div className="max-w-7xl mx-2 md:mx-8 py-12 sm:py-24 grid grid-cols-1 gap-5 sm:grid-cols-3 md:grid-cols-4 ">
+      <div className="max-w-5xl mx-2 md:mx-8 py-12 px-5 md:px-0 sm:py-24 grid grid-cols-1 gap-5 sm:grid-cols-3 md:grid-cols-4 w-full">
         <div className="flex flex-col gap-3">
-          <h1 className="font-bold text-2xl">VAVAPOPO</h1>
-          <p className="mt-5 ">
-            Akshya Nagar 1st Block 1st Cross,
-            <br />
-            Rammurthy nagar -560016
+          <h1 className="font-bold text-xl">Address</h1>
+          <p className="max-w-[200px]">
+            Hilite business park, Kozhikode, Kerala, India.
           </p>
-          <p className=" sm:mt-12">+91 986543210</p>
+          <h1 className="font-bold text-xl mt-5">Contact</h1>
+          <p className="">+91 9946889899</p>
           <div className="flex gap-4 sm:mt-12  ">
             <a href="">
               <Image
@@ -91,10 +90,10 @@ const Footersection = () => {
             </a>
           </div>
         </div>
-        <div className="flex flex-col gap-3 items-center">
+        <div className="flex flex-col gap-3 mt-5 md:mt-0 md:items-center">
           <h1 className="font-semibold text-xl">Pages</h1>
 
-          <div className="flex flex-col gap-2 text-sm font-light">
+          <div className="flex flex-col gap-2 text-sm">
             <Link href="/" className="cursor-pointer hover:underline">
               Home
             </Link>
@@ -129,7 +128,7 @@ const Footersection = () => {
             </button>
           </form>
         </div> */}
-        <div className="col-span-4 md:col-span-2 flex">
+        <div className="md:col-span-2 flex">
           <iframe
             src="https://cdn.forms-content-1.sg-form.com/d8657c49-1c04-11ef-8456-ea7584dea972"
             className="w-full h-[460px]"
