@@ -9,9 +9,10 @@ import {
 import Link from "next/link";
 import { collection, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { ToastContainer, toast } from "react-toastify";
-import { db } from "@/app/firebase/firebaseinit";
+import { db, imageDb } from "@/app/firebase/firebaseinit";
 import { async } from "@firebase/util";
 import Image from "next/image";
+import { ref } from "firebase/storage";
 
 function Icon({ id, open }) {
   return (
@@ -52,6 +53,9 @@ const PackCard = ({
     try {
       console.log(id);
       const docRef = doc(db, "packages", id);
+      for (const image in images) {
+        const imageRef = ref(imageDb, image.path);
+      }
       await deleteDoc(docRef);
       trigger("success");
     } catch (error) {
