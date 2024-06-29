@@ -106,7 +106,7 @@ const PackCard = ({
               return (
                 <>
                   <Image
-                    src={e}
+                    src={e.url}
                     width={500}
                     height={500}
                     priority

@@ -22,7 +22,7 @@ const Page = () => {
   const [destination, setDestination] = useState("");
   const [days, setDays] = useState("");
   const [lastDoc, setLastDoc] = useState([]);
-  const [isMore, setIsMore] = useState(true);
+  const [isMore, setIsMore] = useState(false);
 
   const getPacks = async (lastVisibleDoc = null) => {
     const resList = [];
@@ -71,7 +71,7 @@ const Page = () => {
         setPackData(resList);
       }
       setIsLoading(false);
-      if (resList.length != PAGE_SIZE) setIsMore(true);
+      if (resList.length != PAGE_SIZE && resList.length != 0) setIsMore(true);
     } catch (error) {
       console.log(error);
       setIsLoading(false);

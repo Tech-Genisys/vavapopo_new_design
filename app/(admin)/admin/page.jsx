@@ -19,7 +19,6 @@ import {
   CountSkeleton,
 } from "@/app/(home)/components/cardSkeleton";
 import { signOut } from "firebase/auth";
-import { async } from "@firebase/util";
 
 function AdminPage() {
   const [showModal, setShowModal] = useState(false);
