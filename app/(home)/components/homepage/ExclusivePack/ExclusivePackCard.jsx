@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 
 const ExclusivePackCard = ({ id, image, name, state, price, size }) => {
-  const imageUrl = image;
+  const imageUrl = image.url;
   const styling = { backgroundImage: `url(${imageUrl})` };
   return (
     <div className="w-[600px] flex justify-center -ml-2">

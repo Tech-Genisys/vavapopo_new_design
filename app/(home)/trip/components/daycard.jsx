@@ -1,7 +1,7 @@
 import React from "react";
 
 const Daycard = ({ data }) => {
-  const [active, setActive] = React.useState(data.images[0]);
+  const [active, setActive] = React.useState(data.images[0].url);
   return (
     <div className=" bg-white shadow px-3 rounded-2xl flex flex-col md:flex-row items-center md:items-start md:gap-9 py-3">
       <div className="grid gap-4 w-full md:max-w-[400px]">
@@ -20,8 +20,8 @@ const Daycard = ({ data }) => {
             return (
               <div key={index}>
                 <img
-                  onClick={() => setActive(i)}
-                  src={i}
+                  onClick={() => setActive(i.url)}
+                  src={i.url}
                   className="h-12 max-w-full cursor-pointer rounded-lg object-cover object-center"
                   alt="gallery-image"
                 />
