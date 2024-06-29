@@ -1,5 +1,7 @@
 "use client";
+import { imageDb } from "@/app/firebase/firebaseinit";
 import { SDK_VERSION } from "firebase/app";
+import { deleteObject, ref } from "firebase/storage";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 const DayInputUpdate = ({
@@ -73,10 +75,17 @@ const DayInputUpdate = ({
     setUnsaved(false);
   };
 
-  const deleteExistingImage = (imageUrl) => {
-    setExistingImage((prev) => {
-      return prev.filter((image) => image !== imageUrl);
-    });
+  const deleteExistingImage = async (imageUrl) => {
+    const imageRef = ref(imageDb, imageUrl.path);
+    try {
+      await deleteObject(imageRef);
+      alert("successfully deleted");
+      setExistingImage((prev) => {
+        return prev.filter((image) => image !== imageUrl);
+      });
+    } catch (e) {
+      alert("error");
+    }
   };
 
   return (
@@ -121,7 +130,7 @@ const DayInputUpdate = ({
           <div className="grid grid-cols-1 gap-4">
             {existingImage.map((image) => (
               <div className="grid grid-cols-2">
-                <img src={image} className="max-w-[300px]" />
+                <img src={image.url} className="max-w-[300px]" />
                 {!isSubmited && (
                   <div
                     className="p-1 rounded-md bg-red-500 w-fit h-fit"

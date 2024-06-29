@@ -66,10 +66,12 @@ function PackagesPage() {
   const uploadFileToFirebase = async (images) => {
     const imageUrls = [];
     for (let i = 0; i < images.length; i++) {
-      const storageRef = ref(imageDb, `images/${v4()}`);
+      const imageName = `images/${v4()}`;
+      const storageRef = ref(imageDb, imageName);
       const uploadResult = await uploadBytes(storageRef, images[i]);
+      console.log(uploadResult);
       const url = await getDownloadURL(uploadResult.ref);
-      imageUrls.push(url);
+      imageUrls.push({ url: url, path: imageName });
     }
     return imageUrls;
   };

@@ -25,7 +25,7 @@ const TripSlider = ({ image }) => {
           element.images.map((e, index) => (
             <img
               key={index}
-              src={e}
+              src={e.url}
               alt={`image ${index + 1}`}
               className="h-full w-full object-cover"
             />
