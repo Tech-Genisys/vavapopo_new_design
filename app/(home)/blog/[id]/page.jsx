@@ -62,23 +62,23 @@ By keeping these tips in mind, you’ll be well-prepared to enjoy all that Dubai
 `;
   return (
     <div className="w-full flex flex-col items-center">
-      <div className="flex flex-col items-center max-w-7xl relative w-full">
+      <div className="flex flex-col items-center max-w-5xl relative w-full">
         <Navbar />
-        <div className="mt-20">
-          <div className="w-full relative max-h-[500px] rounded-xl overflow-hidden">
+        <div className=" mt-12 sm:mt-20 w-full">
+          <div className="w-full relative h-[300px] sm:max-h-[500px] sm:rounded-xl overflow-hidden">
             <img
               src="https://lp-cms-production.imgix.net/2024-06/GettyImages-1238703443.jpg?w=1440&h=810&fit=crop&auto=format&q=75"
               alt=""
-              className="rounded-xl h-full w-full object-cover"
+              className="sm:rounded-xl h-full w-full object-cover"
             />
             <div className="absolute z-40 h-full  w-full bg-gradient-to-t from-black to-transparent top-0 left-0 flex flex-col justify-end items-start px-4 py-4">
-              <p className="bg-white px-3 font-semibold rounded-full text-lg mb-3">
+              <p className="bg-white px-2 sm:px-3 font-semibold rounded-full text-xs sm:text-lg mb-1 sm:mb-3">
                 Travel
               </p>
-              <h1 className="text-white text-5xl font-semibold max-w-3xl">
+              <h1 className="text-white text-xl sm:text-5xl font-semibold max-w-3xl">
                 13 things to know before going to Dubai Lara Brunt
               </h1>
-              <div className="flex gap-3 mt-3 text-sm">
+              <div className="flex sm:gap-3 mt-3 text-xs sm:text-sm gap-1">
                 <div className="flex gap-1 text-white">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -86,7 +86,7 @@ By keeping these tips in mind, you’ll be well-prepared to enjoy all that Dubai
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="size-5 "
+                    className="size-4 sm:size-5"
                   >
                     <path
                       strokeLinecap="round"
@@ -104,7 +104,7 @@ By keeping these tips in mind, you’ll be well-prepared to enjoy all that Dubai
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="size-5"
+                    className=" size-4 sm:size-5"
                   >
                     <path
                       strokeLinecap="round"
@@ -118,8 +118,8 @@ By keeping these tips in mind, you’ll be well-prepared to enjoy all that Dubai
             </div>
           </div>
         </div>
-        <div className="flex justify-between w-full border-l border-r mb-24 py-4 mt-3 ">
-          <div className="mt-4 px-4 markdown max-w-4xl">
+        <div className="flex justify-between w-full border-l border-r mb-24 py-4 mt-0 ">
+          <div className="mt-1 px-4 markdown max-w-4xl">
             <Markdown>{markdown}</Markdown>
           </div>
           <div className=""></div>
