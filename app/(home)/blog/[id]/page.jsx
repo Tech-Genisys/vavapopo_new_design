@@ -64,7 +64,7 @@ By keeping these tips in mind, you’ll be well-prepared to enjoy all that Dubai
     <div className="w-full flex flex-col items-center">
       <div className="flex flex-col items-center max-w-5xl relative w-full">
         <Navbar />
-        <div className=" mt-12 sm:mt-20 w-full">
+        <div className=" mt-12 sm:mt-20 w-full md:px-2">
           <div className="w-full relative h-[300px] sm:max-h-[500px] sm:rounded-xl overflow-hidden">
             <img
               src="https://lp-cms-production.imgix.net/2024-06/GettyImages-1238703443.jpg?w=1440&h=810&fit=crop&auto=format&q=75"
