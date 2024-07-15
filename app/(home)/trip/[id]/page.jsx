@@ -1,4 +1,4 @@
-import React from "react";
+import React, { cache } from "react";
 import Navbar from "../../components/navbar";
 import HeroSlideSction from "../components/HeroSlideSction";
 import TripCoustoSearch from "../components/TripCoustomSearch";
@@ -8,7 +8,7 @@ import { db } from "@/app/firebase/firebaseinit";
 import Daysection from "../components/daysection";
 import { redirect } from "next/navigation";
 
-async function getPackageData(id) {
+const getPackageData = cache(async (id) => {
   try {
     const docRef = doc(db, "packages", id);
     const docSnap = await getDoc(docRef);
@@ -21,6 +21,18 @@ async function getPackageData(id) {
     console.log(e);
     return null;
   }
+});
+
+export async function generateMetadata({ params }) {
+  const { id } = params;
+  const data = await getPackageData(id);
+  return {
+    title: data.packageTitle,
+    description: data.description,
+    openGraph: {
+      images: data.days[0].images[0],
+    },
+  };
 }
 
 export default async function Page({ params }) {
