@@ -6,6 +6,7 @@ import Footersection from "./components/homepage/footersection";
 import Fullpageimagesection from "./components/homepage/fullpageimage";
 import Herosection from "./components/homepage/herosection";
 import ReviewRapingDiv from "./components/homepage/ReviewSection";
+import BlogSection from "./components/homepage/BlogSection";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <ExclusiveSection />
       <HashTagSection />
       <ReviewRapingDiv />
+      <BlogSection />
       <PlanSection />
       <Footersection />
     </div>
