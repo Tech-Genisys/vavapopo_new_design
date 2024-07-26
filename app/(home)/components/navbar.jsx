@@ -17,9 +17,7 @@ function Navbar() {
       data-aos-duration="1000"
     >
       <Link href="/">
-        <p className="font-semibold text-white bg-black bg-opacity-30 px-2 py-1 rounded-md">
-          VAVAPOPO
-        </p>
+        <Image width={100} height={50} src="/navbar/logo_bg.png" className="w-[80px]  lg:w-[100px]"/>
       </Link>
 
       <ul className="hidden md:flex gap-10 text-sm font-medium">
