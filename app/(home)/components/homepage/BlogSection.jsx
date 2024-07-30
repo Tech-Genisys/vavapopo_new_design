@@ -5,7 +5,7 @@ import Blogsidecard from "./blogs/blogsidecard";
 
 const BlogSection = () => {
   return (
-    <div className="w-full flex justify-center bg-background py-6 sm:px-6 px-2">
+    <div className="w-full flex justify-center bg-background py-6 px-6 lg:px-4">
       <div className="w-full max-w-7xl">
         <div className="flex w-full justify-between">
           <h1 className="text-4xl font-semibold mb-7">
@@ -17,11 +17,11 @@ const BlogSection = () => {
             </p>
           </div>
         </div>
-        <div className="w-full grid md:grid-cols-5 gap-2 mt-5">
-          <div className="md:col-span-3">
+        <div className="w-full grid grid-cols-1 lg:grid-cols-5 gap-2 mt-5">
+          <div className="lg:col-span-3">
             <Blogmaincard />
           </div>
-          <div className="md:col-span-2 flex flex-col gap-2">
+          <div className="md:col-span-2 flex flex-col gap-2 w-full">
             <Blogsidecard />
             <Blogsidecard />
             <Blogsidecard />
