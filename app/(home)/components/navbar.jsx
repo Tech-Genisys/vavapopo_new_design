@@ -12,7 +12,8 @@ function Navbar() {
   };
   return (
     <nav
-      className="flex justify-between px-10 py-2 absolute top-0 z-20 w-full bg-black bg-opacity-40 xl:bg-opacity-0"
+      // className="flex justify-between px-10 py-2 absolute top-0 z-20 w-full bg-black bg-opacity-40 xl:bg-opacity-0"
+      className="flex justify-between px-10 py-2 absolute top-0 z-20 w-full bg-[#003329]"
       data-aos="fade-down"
       data-aos-duration="1000"
     >
@@ -20,7 +21,7 @@ function Navbar() {
         <Image width={100} height={50} src="/navbar/logo_bg.png" className="w-[80px]  lg:w-[100px]"/>
       </Link>
 
-      <ul className="hidden md:flex gap-10 text-sm font-medium">
+      <ul className="hidden md:flex gap-10 text-sm font-medium items-center text-white">
         <Link
           href="/"
           className="cursor-pointer hover:underline hover:font-bold"
@@ -46,7 +47,7 @@ function Navbar() {
           Review
         </Link>
       </ul>
-      <Link href="/packs">
+      <Link href="/packs" className="flex items-center">
         <button className="hidden md:block py-2 px-6 rounded-md bg-foreground text-sm font-medium text-white hover:scale-105 hover:shadow-lg">
           Explore
         </button>
@@ -74,7 +75,7 @@ function Navbar() {
       <div
         className={`${
           navToggle ? "active" : "inactive"
-        } absolute top-0 right-0 w-full bg-green-500 py-10 nav`}
+        } absolute top-0 right-0 w-full bg-[#003329] py-10 nav`}
       >
         <ul className="flex flex-col justify-center gap-5 items-center text-sm text-white font-medium">
           <Link href="/" className="cursor-pointer hover:underline">
