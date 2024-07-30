@@ -7,8 +7,8 @@ const BlogSection = () => {
   return (
     <div className="w-full flex justify-center bg-background py-6 px-6 lg:px-4">
       <div className="w-full max-w-7xl">
-        <div className="flex w-full justify-between">
-          <h1 className="text-4xl font-semibold mb-7">
+        <div className="flex w-full justify-center md:justify-between">
+          <h1 className="text-4xl font-semibold mb-7 text-center md:text-left">
             Explore our latest stories
           </h1>
           <div className="flex items-end">
