@@ -38,7 +38,7 @@ function Herosection() {
         className="w-[80%] h-fit absolute top-0 right-0"
         data-aos="fade-down"
       />
-      <h2 className="text-3xl w-[70%] sm:text-3xl md:text-4xl lg:text-5xl max-w-xl text-center font-bold text-whi mb-10">
+      <h2 className="text-3xl w-[70%] sm:text-3xl md:text-4xl lg:text-5xl max-w-xl text-center font-bold text-whi mb-10 mt-10">
         Discover Kerala's <br />
         <p className="text-green-800">
           {text}
@@ -48,7 +48,7 @@ function Herosection() {
         </p>
       </h2>
       <p
-        className="w-[90%] max-w-xl text-xs mt-4 sm:mt-0 md:text-sm text-center font-medium mb-20 z-10"
+        className="w-[90%] max-w-xl text-xs mt-4 sm:mt-0 md:text-sm text-center font-medium mb-20"
         data-aos="fade-up"
         data-aos-duration="1000"
       >
@@ -103,7 +103,7 @@ function Herosection() {
           className="w-full h-fit absolute bottom-0"
         />
       </div>
-      <div className="absolute translate-x-1/2 mr-6 bottom-16 sm:hidden   ">
+      <div className="absolute translate-x-1/2 mr-6 bottom-16 sm:hidden">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
