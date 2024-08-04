@@ -25,7 +25,7 @@ const Blogcard = ({ description }) => {
     ? splitDescription(description, 15)
     : { firstPart: "Loading", secondPart: "Loading" };
   return (
-    <div className="flex gap-3 items-center hover:shadow-md px-2 py-2 hover:rounded-md mb-4">
+    <div className="flex gap-3 items-center hover:shadow-md px-2 py-2 hover:rounded-2xl mb-4">
       <img
         src="https://lp-cms-production.imgix.net/2024-06/GettyImages-1238703443.jpg?w=1440&h=810&fit=crop&auto=format&q=75"
         alt=""
@@ -37,7 +37,7 @@ const Blogcard = ({ description }) => {
             Travel
           </p>
         </div>
-        <h1 className="text-black text-lg sm:text-3xl font-semibold max-w-3xl">
+        <h1 className="text-black text-base sm:text-2xl font-semibold max-w-3xl">
           13 things to know before going to Dubai Lara Brunt
         </h1>
         <div className="flex sm:gap-3 mt-3 text-xs sm :text-sm gap-1">
@@ -77,7 +77,7 @@ const Blogcard = ({ description }) => {
             <p className="font-medium">2 MIN READ</p>
           </div>
         </div>
-        <p className="text-lg font-semibold sm:block hidden mt-3 text-gray-800">
+        <p className="text-base font-semibold sm:block hidden mt-3 text-gray-800">
           {firstPart}
         </p>
       </div>
