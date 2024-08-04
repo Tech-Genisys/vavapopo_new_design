@@ -23,6 +23,11 @@ const Page = () => {
   const submit = () => {
     console.log(data);
   };
+  const removeTag = (index) => {
+    const newTags = [...data.tags];
+    newTags.splice(index, 1);
+    setData({ ...data, tags: newTags });
+  };
 
   return (
     <div className="min-h-screen p-4 xl:ml-72 w-full">
@@ -93,9 +98,24 @@ const Page = () => {
             {data.tags.map((t, index) => (
               <span
                 key={index}
-                className="mr-2 p-1 px-3 bg-gray-200 rounded-full"
+                className="mr-2 p-1 px-3 bg-gray-200 rounded-full relative"
               >
                 {t}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-3 absolute top-0 -right-1 bg-red-500 rounded-full text-white"
+                  onClick={(e) => removeTag(index)}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                  />
+                </svg>
               </span>
             ))}
           </div>
