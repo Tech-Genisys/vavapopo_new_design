@@ -51,7 +51,7 @@ const DayInputFiled = ({
   };
 
   return (
-    <fieldset className="border-2 border-gray-300 p-4 max-w-2xl rounded-md">
+    <fieldset className="shadow-lg border p-5 max-w-2xl rounded-md">
       <form onSubmit={submitDay}>
         <div className="mb-2">
           <label htmlFor="" className="font-medium text-sm">
@@ -60,7 +60,7 @@ const DayInputFiled = ({
           <br />
           <input
             type="text"
-            className="mt-2 py-1 w-full max-w-2xl rounded-md px-4 border border-gray-400"
+            className="mt-2 custom-input"
             placeholder="Title"
             value={Title}
             onChange={(e) => setTitle(e.target.value)}
@@ -76,7 +76,7 @@ const DayInputFiled = ({
           <textarea
             ref={textAreaRef}
             type="text"
-            className="mt-2 py-1 w-full max-w-2xl rounded-md px-4 min-h-20 border border-gray-400"
+            className="mt-2 custom-input"
             placeholder="Describe the day"
             value={Description}
             onChange={(e) => setDescription(e.target.value)}

@@ -160,3 +160,44 @@
     margin: 10px 0;
   }
 }
+:root {
+  --input-border: #8b8a8b;
+  --input-focus-h: 245;
+  --input-focus-s: 100%;
+  --input-focus-l: 42%;
+}
+
+.custom-input {
+  padding: 5px 15px;
+  border-radius: 20px;
+  border: 1px solid rgb(216, 216, 216);
+  width: 100%;
+  max-width: 600px;
+  background-color: white;
+  transition: 180ms box-shadow ease-in-out;
+}
+
+.custom-input[disabled] {
+  --input-border: #ccc;
+
+  background-color: #eee;
+  cursor: not-allowed;
+}
+
+.custom-input::placeholder{
+  color: gray;
+  font-size: small;
+}
+
+
+.custom-input:focus {
+  border-color: hsl(var(--input-focus-h), var(--input-focus-s), var(--input-focus-l));
+  box-shadow: 0 0 0 3px hsla(var(--input-focus-h), var(--input-focus-s), calc(var(--input-focus-l) +
+          40%), 0.8);
+  outline: 3px solid transparent;
+}
+
+input[type="file"] {
+  font-size: 0.9em;
+  padding-top: 0.35rem;
+}

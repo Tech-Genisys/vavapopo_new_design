@@ -135,7 +135,7 @@ function PackagesPage() {
           <br />
           <input
             type="text"
-            className="mt-2 py-1 w-full max-w-2xl rounded-md px-4 border border-gray-400"
+            className="mt-2 custom-input"
             placeholder="Title"
             required
             value={data.packageTitle}
@@ -151,7 +151,7 @@ function PackagesPage() {
           <br />
           <input
             type="number"
-            className="mt-2 py-1 w-full max-w-2xl rounded-md px-4 border border-gray-400"
+            className="mt-2 custom-input"
             placeholder="Price"
             required
             value={data.startingPrice}
@@ -168,7 +168,7 @@ function PackagesPage() {
           <textarea
             ref={textAreaRef}
             type="text"
-            className="mt-2 py-1 w-full max-w-2xl rounded-md px-4 min-h-20 border border-gray-400"
+            className="mt-2 custom-input"
             placeholder="A short description"
             value={data.description}
             onChange={(e) =>
@@ -183,7 +183,7 @@ function PackagesPage() {
           </label>
           <br />
           <select
-            className="py-1 px-6 rounded-md bg-white border border-gray-400"
+            className="custom-input"
             value={data.state}
             onChange={(e) =>
               setData((prev) => ({ ...prev, state: e.target.value }))
