@@ -116,6 +116,7 @@ function EditPage({ params }) {
       exclusive: packageData.exclusive,
       days: newDaysData,
       description: packageData.description,
+      date: new Date()
     };
     try {
       const docRef = doc(db, "packages", id);
