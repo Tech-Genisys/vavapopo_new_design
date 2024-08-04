@@ -6,7 +6,7 @@ const Blogsidecard = () => {
       <img
         src="https://lp-cms-production.imgix.net/2024-06/GettyImages-1238703443.jpg?w=1440&h=810&fit=crop&auto=format&q=75"
         alt=""
-        className="sm:rounded-lg aspect-square object-cover max-w-32"
+        className="sm:rounded-lg rounded-md aspect-square object-cover max-w-32"
       />
       <div className="flex flex-col justify-center">
         <p className="text-base font-semibold ">
