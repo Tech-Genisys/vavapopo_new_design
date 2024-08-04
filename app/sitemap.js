@@ -16,6 +16,7 @@ const getAllPackageUrls = async () => {
 
     return packagesUrl
 }
+export const revalidate = 30
 
 export default async function sitemap() {
   const ulrs =  [
