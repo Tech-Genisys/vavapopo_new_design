@@ -56,7 +56,7 @@ const ExclusivePackCarousel = ({ itemList }) => {
     return () => clearInterval(timerId);
   }, [timeLeft]);
   return (
-    <div className="max-w-xl mx-auto relative">
+    <div className="max-w-xl mx-auto relative flex justify-center">
       {carouselFragment}
       <div className="flex justify-center gap-2 ">
         <button onClick={slideToPrevItem}>

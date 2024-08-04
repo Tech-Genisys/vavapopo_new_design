@@ -19,6 +19,7 @@ function Navbar() {
     >
       <Link href="/">
         <Image width={100} height={50} src="/navbar/logo_bg.png" className="w-[80px]  lg:w-[100px]"/>
+        {/* <Image width={100} height={50} src="/navbar/white.png" className="w-[40px]  lg:w-[45px]"/> */}
       </Link>
 
       <ul className="hidden md:flex gap-10 text-sm font-medium items-center text-white">
