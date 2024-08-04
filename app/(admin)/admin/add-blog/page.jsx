@@ -4,12 +4,12 @@ import MDEditor from "@uiw/react-md-editor";
 import React, { useState } from "react";
 
 const Page = () => {
-  const [markdown, setMarkdown] = useState("Nothing");
+  //   const [markdown, setMarkdown] = useState("Nothing");
   const [data, setData] = useState({
     blogTitle: "",
     coverImage: null,
     tags: [],
-    blog: markdown,
+    blog: "",
   });
   const [tag, setTag] = useState("");
 
@@ -20,8 +20,8 @@ const Page = () => {
       setTag("");
     }
   };
-  const submit = async () => {
-    setData({ ...data, blog: markdown });
+  const submit = () => {
+    console.log(data);
   };
 
   return (
@@ -107,8 +107,8 @@ const Page = () => {
           <br />
           <MDEditor
             className="mt-3"
-            value={markdown}
-            onChange={setMarkdown}
+            value={data.blog}
+            onChange={(value) => setData((prev) => ({ ...prev, blog: value }))}
             preview="edit"
             data-color-mode="light"
           />
