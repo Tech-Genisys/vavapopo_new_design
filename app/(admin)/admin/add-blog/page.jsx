@@ -1,10 +1,17 @@
 "use client";
+import { db, imageDb } from "@/app/firebase/firebaseinit";
 import { Button } from "@material-tailwind/react";
 import MDEditor from "@uiw/react-md-editor";
+import { addDoc, collection } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import { v4 } from "uuid";
 
 const Page = () => {
   //   const [markdown, setMarkdown] = useState("Nothing");
+  const router = useRouter();
   const [data, setData] = useState({
     blogTitle: "",
     coverImage: null,
@@ -20,9 +27,50 @@ const Page = () => {
       setTag("");
     }
   };
-  const submit = () => {
-    console.log(data);
+  const uploadFileToFirebase = async (image) => {
+    const imageName = `blogs/${v4()}`;
+    const storageRef = ref(imageDb, imageName);
+    const uploadResult = await uploadBytes(storageRef, image);
+    const url = await getDownloadURL(uploadResult.ref);
+    return { url: url, path: imageName };
   };
+  const submit = async () => {
+    try {
+      toast.info("Uploading data...", {
+        toastId: "blog-upload",
+        autoClose: false,
+        closeOnClick: false,
+        theme: "colored",
+      });
+      const imageUrl = await uploadFileToFirebase(data.coverImage);
+      const blogCollection = collection(db, "blogs");
+      const finalData = {
+        ...data,
+        coverImage: imageUrl,
+        date: new Date()
+      };
+      await addDoc(blogCollection, finalData);
+      toast.update("blog-upload", {
+        render: "Successfully created blog, you will be redirected",
+        theme: "colored",
+        type: "success",
+        autoClose: 1000,
+        onClose: () => {
+          router.replace("/admin");
+        },
+      });
+    } catch (error) {
+      console.log(error)
+      toast.update("blog-upload", {
+        render: "Unkown error occured",
+        type: "error",
+        theme: "colored",
+        autoClose: 1000,
+        theme: "colored",
+      });
+    }
+  };
+
   const removeTag = (index) => {
     const newTags = [...data.tags];
     newTags.splice(index, 1);
@@ -31,6 +79,7 @@ const Page = () => {
 
   return (
     <div className="min-h-screen p-4 xl:ml-72 w-full">
+      <ToastContainer />
       <p className="text-sm font-medium mb-10">Add Blog</p>
       <form className="grid grid-cols-1 gap-5 bg-white p-5 rounded-md">
         <div className="">

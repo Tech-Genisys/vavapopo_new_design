@@ -2,30 +2,41 @@ import React from "react";
 import Navbar from "../../components/navbar";
 import Markdown from "react-markdown";
 import Footersection from "../../components/homepage/footersection";
-import { collection, getDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/app/firebase/firebaseinit";
 import { redirect } from "next/navigation";
+import Image from "next/image";
 
 const getBlogData = async (id) => {
   try {
-    const docRef = collection(db, "blogs", id);
+    const docRef = doc(db, "blogs", id);
     const blog = await getDoc(docRef);
     if (blog.exists()) {
       return blog.data();
     }
-    console.log("Blog not found");
     return null;
   } catch (error) {
-    console.log(error)
-    return null
+    console.log(error);
+    return null;
   }
 };
+
+export async function generateMetadata({ params }) {
+  const { id } = params;
+  const data = await getBlogData(id);
+  return {
+    title: data.blogTitle,
+    openGraph: {
+      images: data.coverImage.url,
+    },
+  };
+}
 
 const Page = async ({ params }) => {
   const { id } = params;
   const blog = await getBlogData(id);
   if (!blog) {
-    return redirect('/404')
+    return redirect("/404");
   }
   return (
     <div className="w-full flex flex-col items-center">
@@ -33,15 +44,19 @@ const Page = async ({ params }) => {
       <div className="flex flex-col items-center max-w-5xl relative w-full">
         <div className=" mt-12 sm:mt-20 w-full md:px-2">
           <div className="w-full relative h-[300px] sm:max-h-[500px] sm:rounded-xl overflow-hidden">
-            <img
-              src="https://lp-cms-production.imgix.net/2024-06/GettyImages-1238703443.jpg?w=1440&h=810&fit=crop&auto=format&q=75"
+            <Image
+              width={5000}
+              height={5000}
+              src={blog.coverImage.url}
               alt=""
               className="sm:rounded-xl h-full w-full object-cover"
             />
             <div className="absolute z-40 h-full  w-full bg-gradient-to-t from-black to-transparent top-0 left-0 flex flex-col justify-end items-start px-4 py-4">
-              <p className="bg-white px-2 sm:px-3 font-semibold rounded-full text-xs sm:text-lg mb-1 sm:mb-3">
-                Travel
-              </p>
+              {blog.tags.map((item) => (
+                <p className="bg-white px-2 sm:px-3 font-semibold rounded-full text-xs sm:text-lg mb-1 sm:mb-3">
+                  {item}
+                </p>
+              ))}
               <h1 className="text-white text-xl sm:text-5xl font-semibold max-w-3xl">
                 {blog.blogTitle}
               </h1>
@@ -62,7 +77,7 @@ const Page = async ({ params }) => {
                     />
                   </svg>
 
-                  <p className=" ">21/04/2025</p>
+                  <p className=" ">{blog.date.toDate().toString()}</p>
                 </div>
                 <div className="flex gap-1 text-white">
                   <svg
