@@ -102,6 +102,16 @@ function Sidenav() {
                 Edit Packages
               </li>
             </Link>
+            <Link href="/admin/add-blog" onClick={() => setToggleNav(false)}>
+              <li
+                className={`py-3 px-4 rounded-md hover:bg-gray-100 ${
+                  pathName == "/admin/add-blog" &&
+                  "bg-gradient-to-b from-gray-800 to-gray-900 text-white"
+                }`}
+              >
+                Add Blog
+              </li>
+            </Link>
           </ul>
           <div className="mt-20 flex justify-center">
             <button
