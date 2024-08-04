@@ -95,6 +95,7 @@ function PackagesPage() {
         ...data,
         totalDays: daysInput.length + 1,
         days: newDaysData,
+        date: new Date()
       };
       console.log(jsonData);
       const packageCollection = collection(db, "packages");
