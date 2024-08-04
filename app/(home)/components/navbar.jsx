@@ -79,16 +79,16 @@ function Navbar() {
         } absolute top-0 right-0 w-full bg-[#003329] py-10 nav`}
       >
         <ul className="flex flex-col justify-center gap-5 items-center text-sm text-white font-medium">
-          <Link href="/" className="cursor-pointer hover:underline">
+          <Link href="/" className="cursor-pointer hover:underline border-b border-white w-[80%] pb-2" onClick={toggleNav}>
             Home
           </Link>
-          <Link href="/#about" className="cursor-pointer hover:underline">
+          <Link href="/#about" className="cursor-pointer hover:underline border-b border-white w-[80%] pb-2" onClick={toggleNav}>
             About
           </Link>
-          <Link href="/packs" className="cursor-pointer hover:underline">
+          <Link href="/packs" className="cursor-pointer hover:underline border-b border-white w-[80%] pb-2" onClick={toggleNav}>
             Packages
           </Link>
-          <Link href="/#review" className="cursor-pointer hover:underline">
+          <Link href="/#review" className="cursor-pointer hover:underline border-b border-white w-[80%] pb-2" onClick={toggleNav}>
             Review
           </Link>
         </ul>
