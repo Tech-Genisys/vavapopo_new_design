@@ -1,6 +1,6 @@
 import React from "react";
 
-const Blogcard = ({ description }) => {
+const Blogcard = ({ description = "lol", image, title, date, tags = [] }) => {
   const splitDescription = (desc, wordLimit) => {
     const words = desc.split(" ");
     if (words.length <= wordLimit) {
@@ -27,18 +27,20 @@ const Blogcard = ({ description }) => {
   return (
     <div className="flex gap-3 items-center hover:shadow-md px-2 py-2 hover:rounded-md mb-4">
       <img
-        src="https://lp-cms-production.imgix.net/2024-06/GettyImages-1238703443.jpg?w=1440&h=810&fit=crop&auto=format&q=75"
+        src={image}
         alt=""
         className="rounded-xl w-32 h-32 sm:h-56 sm:w-56 object-cover"
       />
       <div className=" flex flex-col">
-        <div className="flex">
-          <p className="bg-background px-2 sm:px-3 font-semibold rounded-full text-xs sm:text-base mb-1 sm:mb-3">
-            Travel
-          </p>
+        <div className="flex gap-2">
+          {tags.map((item) => (
+            <p className="bg-background px-2 sm:px-3 font-semibold rounded-full text-xs sm:text-base mb-1 sm:mb-3">
+              {item}
+            </p>
+          ))}
         </div>
         <h1 className="text-black text-lg sm:text-3xl font-semibold max-w-3xl">
-          13 things to know before going to Dubai Lara Brunt
+          {title}
         </h1>
         <div className="flex sm:gap-3 mt-3 text-xs sm :text-sm gap-1">
           <div className="flex gap-1 text-gray-800 items-center">
@@ -57,7 +59,7 @@ const Blogcard = ({ description }) => {
               />
             </svg>
 
-            <p className="font-medium ">21/04/2025</p>
+            <p className="font-medium ">{date}</p>
           </div>
           <div className="flex gap-1 text-gray-800 items-center">
             <svg
