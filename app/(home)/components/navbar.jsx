@@ -13,7 +13,7 @@ function Navbar() {
   return (
     <nav
       // className="flex justify-between px-10 py-2 absolute top-0 z-20 w-full bg-black bg-opacity-40 xl:bg-opacity-0"
-      className="flex justify-between px-10 py-2 absolute top-0 z-20 w-full bg-[#003329]"
+      className="flex justify-between px-10 py-2 absolute top-0 z-20 w-full bg-[#003329] items-center"
       data-aos="fade-down"
       data-aos-duration="1000"
     >
@@ -65,7 +65,7 @@ function Navbar() {
         </button>
       </Link>
       <div
-        className="block md:hidden text-white cursor-pointer"
+        className="block md:hidden text-white cursor-pointer h-fit"
         onClick={toggleNav}
       >
         <svg
