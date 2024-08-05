@@ -48,7 +48,7 @@ const Page = () => {
     const wordCount = countWords(plainText);
     const wpm = 250;
     const readingTimeMinutes = wordCount / wpm;
-    return readingTimeMinutes;
+    return Number(readingTimeMinutes).toFixed(0);
   };
 
   const uploadFileToFirebase = async (image) => {
@@ -66,7 +66,10 @@ const Page = () => {
         closeOnClick: false,
         theme: "colored",
       });
-      setData((prev) => ({ ...prev, readtime: calculateReadingTime() }));
+      setData((prev) => ({
+        ...prev,
+        readtime: Number(calculateReadingTime()),
+      }));
       const imageUrl = await uploadFileToFirebase(data.coverImage);
       const blogCollection = collection(db, "blogs");
       const finalData = {
@@ -227,7 +230,7 @@ const Page = () => {
         <div className="flex justify-end gap-1">
           {" "}
           <p>Reading time: </p>
-          <p>{Number(calculateReadingTime()).toFixed(2)}</p>
+          <p>{calculateReadingTime()}</p>
           <p>minutes</p>
         </div>
         <div className="">
