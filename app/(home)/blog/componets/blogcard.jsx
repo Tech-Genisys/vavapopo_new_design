@@ -25,7 +25,7 @@ const Blogcard = ({ description = "lol", image, title, date, tags = [] }) => {
     ? splitDescription(description, 15)
     : { firstPart: "Loading", secondPart: "Loading" };
   return (
-    <div className="flex gap-3 items-center hover:shadow-md px-2 py-2 hover:rounded-md mb-4">
+    <div className="flex gap-3 items-center hover:shadow-md px-2 py-2 hover:rounded-2xl mb-4">
       <img
         src={image}
         alt=""
@@ -79,7 +79,7 @@ const Blogcard = ({ description = "lol", image, title, date, tags = [] }) => {
             <p className="font-medium">2 MIN READ</p>
           </div>
         </div>
-        <p className="text-lg font-semibold sm:block hidden mt-3 text-gray-800">
+        <p className="text-base font-semibold sm:block hidden mt-3 text-gray-800">
           {firstPart}
         </p>
       </div>
