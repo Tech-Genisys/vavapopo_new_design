@@ -8,43 +8,56 @@ const Blogcard = ({
   tags = [],
   id,
 }) => {
-  // const splitDescription = (desc, wordLimit) => {
-  //   const words = desc.split(" ");
-  //   if (words.length <= wordLimit) {
-  //     return { firstPart: desc, secondPart: "" };
-  //   }
+  const markdownToPlainText = (markdown) => {
+    return markdown
+      .replace(/[#*>\-`~\[\]\(\)\\_]/g, "")
+      .replace(/\!\[.*\]\(.*\)/g, "")
+      .replace(/\[.*\]\(.*\)/g, "")
+      .replace(/(\*\*|__)(.*?)\1/g, "$2")
+      .replace(/(\*|_)(.*?)\1/g, "$2")
+      .replace(/\n{2,}/g, "\n\n");
+  };
 
-  //   const firstPartWords = words.slice(0, wordLimit);
-  //   const restWords = words.slice(wordLimit);
-  //   const restText = restWords.join(" ");
-  //   const fullStopIndex = restText.indexOf(".");
+  const splitDescription = (desc, wordLimit) => {
+    const words = desc.split(" ");
+    if (words.length <= wordLimit) {
+      return { firstPart: desc, secondPart: "" };
+    }
 
-  //   const firstPart =
-  //     firstPartWords.join(" ") +
-  //     (fullStopIndex !== -1 ? restText.slice(0, fullStopIndex + 1) : "");
-  //   const secondPart =
-  //     fullStopIndex !== -1 ? restText.slice(fullStopIndex + 1).trim() : "";
+    const firstPartWords = words.slice(0, wordLimit);
+    const restWords = words.slice(wordLimit);
+    const restText = restWords.join(" ");
+    const fullStopIndex = restText.indexOf(".");
 
-  //   return { firstPart, secondPart };
-  // };
+    const firstPart =
+      firstPartWords.join(" ") +
+      (fullStopIndex !== -1 ? restText.slice(0, fullStopIndex + 1) : "");
+    const secondPart =
+      fullStopIndex !== -1 ? restText.slice(fullStopIndex + 1).trim() : "";
 
-  // const { firstPart, secondPart } = description
-  //   ? splitDescription(description, 15)
-  //   : { firstPart: "Loading", secondPart: "Loading" };
+    return { firstPart, secondPart };
+  };
+
+  const { firstPart, secondPart } = description
+    ? splitDescription(description, 15)
+    : { firstPart: "Loading", secondPart: "Loading" };
   return (
     <a href={`${process.env.NEXT_PUBLIC_DOMAIN}/blog/${id}`}>
       <div className="flex gap-3 items-center shadow-sm hover:shadow-md px-2 py-2 hover:rounded-md mb-4">
         <img
           src={image}
           alt=""
-          className="rounded-xl w-32 h-32 sm:h-56 sm:w-56 object-cover"
+          className="rounded-xl w-32 h-32 sm:h-56 sm:min-w-56 object-cover"
         />
         <div className=" flex flex-col">
           <div className="flex gap-2">
             {tags.map((item, index) => {
               if (index > 2) return;
               return (
-                <p key={index} className="bg-background px-2 md:px-3 font-semibold rounded-full text-[10px] md:text-base mb-1 md:mb-3">
+                <p
+                  key={index}
+                  className="bg-background px-2 md:px-3 font-semibold rounded-full text-[10px] md:text-base mb-1 md:mb-3"
+                >
                   {item}
                 </p>
               );
@@ -91,7 +104,7 @@ const Blogcard = ({
             </div>
           </div>
           <p className="font-medium sm:block hidden mt-3 text-gray-800">
-            {description}
+            {markdownToPlainText(firstPart)}
           </p>
         </div>
       </div>

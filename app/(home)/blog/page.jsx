@@ -35,8 +35,10 @@ const Page = async () => {
               <Blogcard
                 title={item.blogTitle}
                 image={item.coverImage.url}
-                date={new Intl.DateTimeFormat('en-CA').format(item.date.toDate())}
-                description={item.blog.slice(0, 200)}
+                date={new Intl.DateTimeFormat("en-CA").format(
+                  item.date.toDate()
+                )}
+                description={item.blog.slice(0, 300)}
                 tags={item.tags}
                 id={item.id}
               />
