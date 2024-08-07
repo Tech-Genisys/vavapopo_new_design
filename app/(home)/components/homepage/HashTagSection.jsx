@@ -56,7 +56,7 @@ const HashTagSection = () => {
         />
       </div>
       <div className="bg-dark py-8 flex justify-center gap-3 text-white w-full">
-        <h1 className="font-semibold text-base">FOLLOW VAVAPOPO :</h1>
+        <h1 className="font-semibold text-base">Follow Vavapopo :</h1>
         <img src="/footer/facebookIcon.svg" alt="" />
         <img src="/footer/instaIcon.svg" alt="" />
         <img src="/footer/linkedInIcon.svg" alt="" />
