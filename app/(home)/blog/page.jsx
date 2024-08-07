@@ -14,7 +14,7 @@ import {
 } from "firebase/firestore";
 import { db } from "@/app/firebase/firebaseinit";
 
-const LIMIT = 2;
+const LIMIT = 20;
 
 const Page = () => {
   const [blogData, setBlogData] = useState(null);

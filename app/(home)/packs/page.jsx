@@ -11,25 +11,35 @@ import {
   query,
   where,
   orderBy,
+  getCountFromServer,
+  startAfter,
 } from "@firebase/firestore";
 import { db } from "@/app/firebase/firebaseinit";
 import { PackageCardSkeleton } from "../components/cardSkeleton";
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 20;
 const Page = () => {
   const [packData, setPackData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [destination, setDestination] = useState("");
   const [days, setDays] = useState("");
-  const [lastDoc, setLastDoc] = useState([]);
-  const [isMore, setIsMore] = useState(false);
+  const [lastDoc, setLastDoc] = useState(null);
+  const [totalCount, setTotalCount] = useState(0);
 
-  const getPacks = async (lastVisibleDoc = null) => {
+  const getPacksTotalCount = async () => {
+    try {
+      const q = query(collection(db, "packages"));
+      const snapshot = await getCountFromServer(q);
+      setTotalCount(snapshot.data().count);
+    } catch (error) {
+      console.log("Error getting document count: ", error);
+      return null;
+    }
+  };
+
+  const getPacks = async (lastDocRef = null) => {
     const resList = [];
     try {
-      if (!isLoading) {
-        setIsLoading(true);
-      }
       let daysInInt = null;
       if (days) daysInInt = parseInt(days);
       let q = query(collection(db, "packages"), limit(PAGE_SIZE));
@@ -55,30 +65,36 @@ const Page = () => {
           limit(PAGE_SIZE)
         );
       }
-      if (lastVisibleDoc) {
-        q = query(q, startAfter(lastVisibleDoc));
+      if (lastDocRef) {
+        q = query(q, startAfter(lastDocRef));
       }
       const res = await getDocs(q);
-
       setLastDoc(res.docs[res.docs.length - 1]);
 
       res.forEach((doc) => {
         resList.push({ id: doc.id, ...doc.data() });
       });
-      if (lastVisibleDoc) {
+      if (lastDocRef) {
         setPackData((prev) => [...prev, ...resList]);
       } else {
         setPackData(resList);
       }
-      setIsLoading(false);
-      if (resList.length != PAGE_SIZE && resList.length != 0) setIsMore(true);
     } catch (error) {
       console.log(error);
-      setIsLoading(false);
     }
   };
+
+  const loadMore = async () => {
+    await getPacks(lastDoc);
+  };
+
   useEffect(() => {
-    getPacks();
+    (async () => {
+      setIsLoading(true);
+      await getPacks();
+      await getPacksTotalCount();
+      setIsLoading(false);
+    })();
   }, []);
   return (
     <div className="">
@@ -100,11 +116,12 @@ const Page = () => {
       ) : (
         <PackSection packs={packData} />
       )}
-      {isMore && (
+      <p>{totalCount}</p>
+      {packData.length < totalCount && (
         <div className="flex justify-center mb-10">
           <button
             className="py-2 px-10 rounded-md bg-green-900 text-white font-semibold hover:scale-105 hover:shadow-xl"
-            onClick={() => getPacks(lastDoc)}
+            onClick={loadMore}
           >
             Load More
           </button>
