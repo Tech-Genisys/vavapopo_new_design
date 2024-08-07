@@ -79,7 +79,9 @@ const Page = async ({ params }) => {
                     />
                   </svg>
 
-                  <p className=" ">{blog.date.toDate().toString()}</p>
+                  <p className=" ">{new Intl.DateTimeFormat("en-CA").format(
+                      blog.date.toDate()
+                    )}</p>
                 </div>
                 <div className="flex gap-1 text-white">
                   <svg

@@ -1,52 +1,56 @@
+import Image from "next/image";
 import React from "react";
 
 const Blogcard = ({
-  description = "lol",
+  description = "No description",
   image,
   title,
   date,
   tags = [],
   id,
 }) => {
-  const markdownToPlainText = (markdown) => {
-    return markdown
-      .replace(/[#*>\-`~\[\]\(\)\\_]/g, "")
-      .replace(/\!\[.*\]\(.*\)/g, "")
-      .replace(/\[.*\]\(.*\)/g, "")
-      .replace(/(\*\*|__)(.*?)\1/g, "$2")
-      .replace(/(\*|_)(.*?)\1/g, "$2")
-      .replace(/\n{2,}/g, "\n\n");
-  };
+  // const markdownToPlainText = (markdown) => {
+  //   return markdown
+  //     .replace(/[#*>\-`~\[\]\(\)\\_]/g, "")
+  //     .replace(/\!\[.*\]\(.*\)/g, "")
+  //     .replace(/\[.*\]\(.*\)/g, "")
+  //     .replace(/(\*\*|__)(.*?)\1/g, "$2")
+  //     .replace(/(\*|_)(.*?)\1/g, "$2")
+  //     .replace(/\n{2,}/g, "\n\n");
+  // };
 
-  const splitDescription = (desc, wordLimit) => {
-    const words = desc.split(" ");
-    if (words.length <= wordLimit) {
-      return { firstPart: desc, secondPart: "" };
-    }
+  // const splitDescription = (desc, wordLimit) => {
+  //   const words = desc.split(" ");
+  //   if (words.length <= wordLimit) {
+  //     return { firstPart: desc, secondPart: "" };
+  //   }
 
-    const firstPartWords = words.slice(0, wordLimit);
-    const restWords = words.slice(wordLimit);
-    const restText = restWords.join(" ");
-    const fullStopIndex = restText.indexOf(".");
+  //   const firstPartWords = words.slice(0, wordLimit);
+  //   const restWords = words.slice(wordLimit);
+  //   const restText = restWords.join(" ");
+  //   const fullStopIndex = restText.indexOf(".");
 
-    const firstPart =
-      firstPartWords.join(" ") +
-      (fullStopIndex !== -1 ? restText.slice(0, fullStopIndex + 1) : "");
-    const secondPart =
-      fullStopIndex !== -1 ? restText.slice(fullStopIndex + 1).trim() : "";
+  //   const firstPart =
+  //     firstPartWords.join(" ") +
+  //     (fullStopIndex !== -1 ? restText.slice(0, fullStopIndex + 1) : "");
+  //   const secondPart =
+  //     fullStopIndex !== -1 ? restText.slice(fullStopIndex + 1).trim() : "";
 
-    return { firstPart, secondPart };
-  };
+  //   return { firstPart, secondPart };
+  // };
 
-  const { firstPart, secondPart } = description
-    ? splitDescription(description, 15)
-    : { firstPart: "Loading", secondPart: "Loading" };
+  // const { firstPart, secondPart } = description
+  //   ? splitDescription(description, 15)
+  //   : { firstPart: "Loading", secondPart: "Loading" };
   return (
     <a href={`${process.env.NEXT_PUBLIC_DOMAIN}/blog/${id}`}>
       <div className="flex gap-3 items-center shadow-sm hover:shadow-md px-2 py-2 hover:rounded-md mb-4">
-        <img
+        <Image
           src={image}
           alt=""
+          width={3000}
+          height={3000}
+          priority={true}
           className="rounded-xl w-32 h-32 sm:h-56 sm:min-w-56 object-cover"
         />
         <div className=" flex flex-col">
@@ -104,7 +108,8 @@ const Blogcard = ({
             </div>
           </div>
           <p className="font-medium sm:block hidden mt-3 text-gray-800">
-            {markdownToPlainText(firstPart)}
+            {/* {markdownToPlainText(firstPart)} */}
+            {description}
           </p>
         </div>
       </div>
