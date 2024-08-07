@@ -14,9 +14,11 @@ const Page = () => {
   const router = useRouter();
   const [data, setData] = useState({
     blogTitle: "",
+    description: "",
     coverImage: null,
     tags: [],
     blog: "",
+    readtime: "",
   });
   const [tag, setTag] = useState("");
 
@@ -27,6 +29,28 @@ const Page = () => {
       setTag("");
     }
   };
+
+  const stripMarkdown = (markdown) => {
+    return markdown
+      .replace(/[#*>\-`~_]/g, "")
+      .replace(/\[(.*?)\]\(.*?\)/g, "$1")
+      .replace(/!\[(.*?)\]\(.*?\)/g, "$1")
+      .replace(/```[\s\S]*?```/g, "")
+      .replace(/`.*?`/g, "")
+      .replace(/\n+/g, " ")
+      .trim();
+  };
+  const countWords = (text) => {
+    return text.split(/\s+/).filter((word) => word.length > 0).length;
+  };
+  const calculateReadingTime = () => {
+    const plainText = stripMarkdown(data.blog);
+    const wordCount = countWords(plainText);
+    const wpm = 250;
+    const readingTimeMinutes = wordCount / wpm;
+    return readingTimeMinutes;
+  };
+
   const uploadFileToFirebase = async (image) => {
     const imageName = `blogs/${v4()}`;
     const storageRef = ref(imageDb, imageName);
@@ -42,12 +66,13 @@ const Page = () => {
         closeOnClick: false,
         theme: "colored",
       });
+      setData((prev) => ({ ...prev, readtime: calculateReadingTime() }));
       const imageUrl = await uploadFileToFirebase(data.coverImage);
       const blogCollection = collection(db, "blogs");
       const finalData = {
         ...data,
         coverImage: imageUrl,
-        date: new Date()
+        date: new Date(),
       };
       await addDoc(blogCollection, finalData);
       toast.update("blog-upload", {
@@ -60,7 +85,7 @@ const Page = () => {
         },
       });
     } catch (error) {
-      console.log(error)
+      console.log(error);
       toast.update("blog-upload", {
         render: "Unkown error occured",
         type: "error",
@@ -95,6 +120,23 @@ const Page = () => {
             value={data.blogTitle}
             onChange={(e) =>
               setData((prev) => ({ ...prev, blogTitle: e.target.value }))
+            }
+          />
+        </div>
+        <div className="">
+          <label htmlFor="" className="font-medium text-sm">
+            Blog Description:
+          </label>
+          <br />
+          <textarea
+            rows={5}
+            type="text"
+            className="mt-2 custom-input"
+            placeholder="Description"
+            required
+            value={data.description}
+            onChange={(e) =>
+              setData((prev) => ({ ...prev, description: e.target.value }))
             }
           />
         </div>
@@ -181,6 +223,12 @@ const Page = () => {
             preview="edit"
             data-color-mode="light"
           />
+        </div>
+        <div className="flex justify-end gap-1">
+          {" "}
+          <p>Reading time: </p>
+          <p>{Number(calculateReadingTime()).toFixed(2)}</p>
+          <p>minutes</p>
         </div>
         <div className="">
           <Button color="green" variant="gradient" onClick={submit}>
