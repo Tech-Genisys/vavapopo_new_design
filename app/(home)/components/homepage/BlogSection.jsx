@@ -25,7 +25,7 @@ const getBlogData = async () => {
 
 const BlogSection = async () => {
   const blogs = await getBlogData();
-  if (!blogs || blogs.length < 1) {
+  if (!blogs || blogs.length < 4) {
     return;
   }
   const [blog1, blog2, blog3, blog4] = blogs;
@@ -66,22 +66,22 @@ const BlogSection = async () => {
               id={blog2.id}
             />
             <Blogsidecard
-              title={blog2.blogTitle}
-              image={blog2.coverImage.url}
+              title={blog3.blogTitle}
+              image={blog3.coverImage.url}
               date={new Intl.DateTimeFormat("en-CA").format(
-                blog2.date.toDate()
+                blog3.date.toDate()
               )}
               duration={2}
-              id={blog2.id}
+              id={blog3.id}
             />
             <Blogsidecard
-              title={blog2.blogTitle}
-              image={blog2.coverImage.url}
+              title={blog4.blogTitle}
+              image={blog4.coverImage.url}
               date={new Intl.DateTimeFormat("en-CA").format(
-                blog2.date.toDate()
+                blog4.date.toDate()
               )}
               duration={2}
-              id={blog2.id}
+              id={blog4.id}
             />
           </div>
         </div>
