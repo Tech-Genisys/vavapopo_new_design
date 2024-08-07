@@ -14,7 +14,7 @@ const HashTagSection = () => {
           data-aos="flip-up"
           data-aos-duration="500"
         >
-          #VAVAPOPO
+          #vavapopo
         </p>
       </div>
       <div className="grid grid-cols-3 lg:grid-cols-6">

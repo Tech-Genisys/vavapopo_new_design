@@ -10,8 +10,8 @@ const PlanSection = () => {
           Ready to plan your trip in half the time ?
         </h1>
         <p className="font-medium  text-gray-800  text-base sm:text-lg max-w-md text-center mt-8">
-          So many trip, so little time, Let Vavapopo worry about the details ,
-          so you don't have to
+          With countless trips and so little time, let Vavapopo the details,
+          so you can enjoy the journey.
         </p>
         <Link href="/booking/custom" className="flex justify-center">
           <button className="bg-foreground text-white font-semibold text-lg px-4 py-1 rounded-full shadow mt-14 hover:scale-105 hover:shadow-xl">

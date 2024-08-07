@@ -21,7 +21,7 @@ const bgImageData = [
   },
   {
     image: "/fullpage/boat.jpg",
-    title: "House boat - Alappuzha house boat",
+    title: "House boat - Alappuzha backwater cruise",
     description: `Glide through the tranquil backwaters of Alappuzha aboard a traditional houseboat, immersing yourself in the serene beauty of Kerala's waterways while indulging in luxurious comfort and savoring delicious local cuisine amidst breathtaking natural vistas.`,
   },
 ];

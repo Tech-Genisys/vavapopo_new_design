@@ -51,7 +51,7 @@ const Page = async ({ params }) => {
               alt=""
               className="sm:rounded-xl h-full w-full object-cover"
             />
-            <div className="absolute z-40 h-full  w-full bg-gradient-to-t from-black to-transparent top-0 left-0 flex flex-col justify-end items-start px-4 py-4">
+            <div className="absolute h-full  w-full bg-gradient-to-t from-black to-transparent top-0 left-0 flex flex-col justify-end items-start px-4 py-4">
               {blog.tags.map((item) => (
                 <p className="bg-white px-2 sm:px-3 font-semibold rounded-full text-xs sm:text-lg mb-1 sm:mb-3">
                   {item}
