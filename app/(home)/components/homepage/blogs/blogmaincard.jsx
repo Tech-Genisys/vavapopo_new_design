@@ -5,14 +5,19 @@ const Blogmaincard = ({ title, tags, image, date, duration, id }) => {
     <a href={`${process.env.NEXT_PUBLIC_DOMAIN}/blog/${id}`}>
       <div className="w-full h-full relative">
         <div className=" absolute z-40 h-full rounded-xl  w-full bg-gradient-to-t from-black to-transparent top-0 left-0 flex flex-col justify-end items-start px-4 py-4">
-          {tags.map((item, index) => {
-            if (index > 2) return;
-            return (
-              <p key={index} className="bg-white px-2 sm:px-3 font-semibold rounded-full text-xs sm:text-lg mb-1 sm:mb-3">
-                {item}
-              </p>
-            );
-          })}
+          <div className="flex gap-1">
+            {tags.map((item, index) => {
+              if (index > 2) return;
+              return (
+                <p
+                  key={index}
+                  className="bg-white px-2 sm:px-3 font-semibold rounded-full text-xs sm:text-lg mb-1 sm:mb-3"
+                >
+                  {item}
+                </p>
+              );
+            })}
+          </div>
           <h1 className="text-white text-xl sm:text-5xl font-semibold max-w-3xl">
             {title}
           </h1>

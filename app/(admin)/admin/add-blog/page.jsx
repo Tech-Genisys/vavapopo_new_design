@@ -1,7 +1,20 @@
 "use client";
 import { db, imageDb } from "@/app/firebase/firebaseinit";
+import { BlockNoteView } from "@blocknote/mantine";
+import { useCreateBlockNote } from "@blocknote/react";
 import { Button } from "@material-tailwind/react";
-import MDEditor from "@uiw/react-md-editor";
+import "@blocknote/mantine/style.css";
+import "@blocknote/core/fonts/inter.css";
+// import MDEditor from "@uiw/react-md-editor";
+// import {
+//   headingsPlugin,
+//   listsPlugin,
+//   MDXEditor,
+//   quotePlugin,
+//   thematicBreakPlugin,
+// } from "@mdxeditor/editor";
+// import "@mdxeditor/editor/style.css";
+// import MDEditor from "@uiw/react-md-editor";
 import { addDoc, collection } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useRouter } from "next/navigation";
@@ -10,7 +23,8 @@ import { ToastContainer, toast } from "react-toastify";
 import { v4 } from "uuid";
 
 const Page = () => {
-  //   const [markdown, setMarkdown] = useState("Nothing");
+  // const [markdown, setMarkdown] = useState("Nothing");
+  const editor = useCreateBlockNote({});
   const router = useRouter();
   const [data, setData] = useState({
     blogTitle: "",
@@ -103,6 +117,12 @@ const Page = () => {
     const newTags = [...data.tags];
     newTags.splice(index, 1);
     setData({ ...data, tags: newTags });
+  };
+
+  const onMarkdownChange = async () => {
+    const markdown = await editor.blocksToMarkdownLossy(editor.document);
+    setData({ ...data, blog: markdown });
+    setData({ ...data, readtime: calculateReadingTime() });
   };
 
   return (
@@ -219,13 +239,27 @@ const Page = () => {
             Blog :
           </label>
           <br />
-          <MDEditor
+          {/* <MDEditor
             className="mt-3"
             value={data.blog}
             onChange={(value) => setData((prev) => ({ ...prev, blog: value }))}
             preview="edit"
             data-color-mode="light"
-          />
+          /> */}
+          {/* <MDEditor
+            value={markdown}
+            onChange={setMarkdown}
+            previewOptions={{
+              rehypePlugins: [[rehypeSanitize]],
+            }}
+          /> */}
+          <div className="py-4 px-1 min-h-24 border rounded-lg mt-4">
+            <BlockNoteView
+              editor={editor}
+              onChange={onMarkdownChange}
+              theme={"light"}
+            />
+          </div>
         </div>
         <div className="flex justify-end gap-1">
           {" "}

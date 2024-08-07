@@ -52,11 +52,13 @@ const Page = async ({ params }) => {
               className="sm:rounded-xl h-full w-full object-cover"
             />
             <div className="absolute h-full  w-full bg-gradient-to-t from-black to-transparent top-0 left-0 flex flex-col justify-end items-start px-4 py-4">
-              {blog.tags.map((item) => (
-                <p className="bg-white px-2 sm:px-3 font-semibold rounded-full text-xs sm:text-lg mb-1 sm:mb-3">
-                  {item}
-                </p>
-              ))}
+              <div className="flex gap-2">
+                {blog.tags.map((item) => (
+                  <p className="bg-[#fffffff8] px-2 sm:px-3 font-semibold rounded-full text-xs sm:text-lg mb-1 sm:mb-3">
+                    {item}
+                  </p>
+                ))}
+              </div>
               <h1 className="text-white text-xl sm:text-5xl font-semibold max-w-3xl">
                 {blog.blogTitle}
               </h1>
