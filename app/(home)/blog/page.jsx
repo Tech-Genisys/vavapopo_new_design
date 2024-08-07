@@ -12,7 +12,7 @@ const getBlogData = async () => {
     if (!blog.empty) {
       const blogsData = [];
       blog.forEach((item) => {
-        blogsData.push(item.data());
+        blogsData.push({ ...item.data(), id: item.id });
       });
       return blogsData;
     }
@@ -29,15 +29,16 @@ const Page = async () => {
     <div className="w-full flex flex-col items-center">
       <div className="flex flex-col items-center  relative w-full">
         <Navbar />
-        <div className=" mt-12 sm:mt-20 w-full px-2 py-8 max-w-5xl min-h-[600px]">
+        <div className=" mt-12 md:mt-20 w-full px-2 py-8 max-w-5xl min-h-[600px]">
           {blogs ? (
             blogs.map((item) => (
               <Blogcard
                 title={item.blogTitle}
                 image={item.coverImage.url}
-                date={item.date.toDate().toString()}
+                date={new Intl.DateTimeFormat('en-CA').format(item.date.toDate())}
                 description={item.blog.slice(0, 200)}
                 tags={item.tags}
+                id={item.id}
               />
             ))
           ) : (
