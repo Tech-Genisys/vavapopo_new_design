@@ -135,7 +135,7 @@ const Page = () => {
             rows={5}
             type="text"
             className="mt-2 custom-input"
-            placeholder="Description"
+            placeholder="Description for SEO"
             required
             value={data.description}
             onChange={(e) =>
