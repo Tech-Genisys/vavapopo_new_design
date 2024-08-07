@@ -44,7 +44,7 @@ const Blogcard = ({
             {tags.map((item, index) => {
               if(index > 2) return
               return (
-                <p className="bg-background px-2 md:px-3 font-semibold rounded-full text-[10px] md:text-base mb-1 md:mb-3">
+                <p key={index} className="bg-background px-2 md:px-3 font-semibold rounded-full text-[10px] md:text-base mb-1 md:mb-3">
                   {item}
                 </p>
               );

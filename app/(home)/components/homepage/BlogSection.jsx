@@ -2,8 +2,33 @@ import React from "react";
 import Blogcard from "../../blog/componets/blogcard";
 import Blogmaincard from "./blogs/blogmaincard";
 import Blogsidecard from "./blogs/blogsidecard";
+import { collection, getDocs, limit, query } from "firebase/firestore";
+import { db } from "@/app/firebase/firebaseinit";
 
-const BlogSection = () => {
+const getBlogData = async () => {
+  try {
+    const q = query(collection(db, "blogs"), limit(4));
+    const blog = await getDocs(q);
+    if (!blog.empty) {
+      const blogsData = [];
+      blog.forEach((item) => {
+        blogsData.push({ ...item.data(), id: item.id });
+      });
+      return blogsData;
+    }
+    return null;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
+const BlogSection = async () => {
+  const blogs = await getBlogData();
+  if (!blogs || blogs.length < 1) {
+    return;
+  }
+  const [blog1, blog2, blog3, blog4] = blogs;
   return (
     <div className="w-full flex justify-center bg-background py-6 px-6 lg:px-4">
       <div className="w-full max-w-7xl">
@@ -19,12 +44,45 @@ const BlogSection = () => {
         </div>
         <div className="w-full grid grid-cols-1 lg:grid-cols-5 gap-2 mt-5">
           <div className="lg:col-span-3">
-            <Blogmaincard />
+            <Blogmaincard
+              title={blog1.blogTitle}
+              date={new Intl.DateTimeFormat("en-CA").format(
+                blog1.date.toDate()
+              )}
+              tags={blog1.tags}
+              image={blog1.coverImage.url}
+              duration={2}
+              id={blog1.id}
+            />
           </div>
           <div className="md:col-span-2 flex flex-col gap-2 w-full">
-            <Blogsidecard />
-            <Blogsidecard />
-            <Blogsidecard />
+            <Blogsidecard
+              title={blog2.blogTitle}
+              image={blog2.coverImage.url}
+              date={new Intl.DateTimeFormat("en-CA").format(
+                blog2.date.toDate()
+              )}
+              duration={2}
+              id={blog2.id}
+            />
+            <Blogsidecard
+              title={blog2.blogTitle}
+              image={blog2.coverImage.url}
+              date={new Intl.DateTimeFormat("en-CA").format(
+                blog2.date.toDate()
+              )}
+              duration={2}
+              id={blog2.id}
+            />
+            <Blogsidecard
+              title={blog2.blogTitle}
+              image={blog2.coverImage.url}
+              date={new Intl.DateTimeFormat("en-CA").format(
+                blog2.date.toDate()
+              )}
+              duration={2}
+              id={blog2.id}
+            />
           </div>
         </div>
         <div className="sm:hidden flex justify-center">
