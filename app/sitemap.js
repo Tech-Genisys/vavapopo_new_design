@@ -25,13 +25,12 @@ const getAllBlogsUrls = async () => {
   blogs.forEach((item) => {
     const data = item.data();
     blogsUrl.push({
-      url: `${process.env.NEXT_PUBLIC_DOMAIN}/trip/${item.id}`,
+      url: `${process.env.NEXT_PUBLIC_DOMAIN}/blog/${item.id}`,
       lastModified: data.date,
       changeFrequency: "monthly",
       priority: 1,
     });
   });
-
   return blogsUrl;
 };
 
