@@ -1,6 +1,7 @@
 "use client";
 import Blogcard from "@/app/(home)/blog/componets/blogcard";
 import { db, imageDb } from "@/app/firebase/firebaseinit";
+import { Button } from "@material-tailwind/react";
 import {
   collection,
   deleteDoc,
@@ -70,19 +71,26 @@ function AdminBlogListPage() {
                 )}
                 image={item.coverImage.url}
                 tags={item.tags}
+                readTime={item.readTime}
               />
               <div className="flex gap-5 flex-wrap">
                 <a href={`/admin/blogs/${item.id}`}>
-                  <button className="px-10 py-2 bg-[#ff5722] text-white font-bold rounded-lg hover:shadow-xl min-w-[140px]">
+                  <Button
+                    variant="gradient"
+                    color="orange"
+                    className="text-white min-w-[100px]"
+                  >
                     Edit
-                  </button>
+                  </Button>
                 </a>
-                <button
-                  className="px-10 py-2 bg-[#fe4741] text-white font-bold rounded-lg hover:shadow-xl min-w-[140px]"
+                <Button
+                  className="text-white min-w-[100px]"
+                  variant="gradient"
+                  color="red"
                   onClick={() => deleteBlog(item.id, item.coverImage.path)}
                 >
                   Delete
-                </button>
+                </Button>
               </div>
             </div>
           ))}

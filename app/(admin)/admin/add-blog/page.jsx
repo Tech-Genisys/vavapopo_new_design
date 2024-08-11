@@ -6,11 +6,18 @@ import { Button } from "@material-tailwind/react";
 import "@blocknote/mantine/style.css";
 import "@blocknote/core/fonts/inter.css";
 import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytes,
+} from "firebase/storage";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { v4 } from "uuid";
+import Image from "next/image";
+import Link from "next/link";
 
 const AddBlogPage = ({ initData = null }) => {
   const editor = useCreateBlockNote(
@@ -23,13 +30,14 @@ const AddBlogPage = ({ initData = null }) => {
       : {
           blogTitle: "",
           description: "",
-          coverImage: null,
+          coverImageFile: null,
           tags: [],
           blog: "",
           readTime: 0,
         }
   );
   const [tag, setTag] = useState("");
+  const [changeImage, setChangeImage] = useState(false);
 
   const addTags = () => {
     if (tag.trim() !== "") {
@@ -71,21 +79,32 @@ const AddBlogPage = ({ initData = null }) => {
 
   const updateBlog = async () => {
     const docRef = doc(db, "blogs", initData.id);
-    const updatedData = {
+    let updatedData = {
       ...data,
       date: new Date(),
     };
+    delete updatedData.coverImageFile;
+    if (changeImage) {
+      const imageRef = ref(imageDb, initData.coverImage.path);
+      await deleteObject(imageRef);
+      const imageUrl = await uploadFileToFirebase(data.coverImageFile);
+      updatedData = {
+        ...updatedData,
+        coverImage: imageUrl,
+      };
+    }
     await updateDoc(docRef, updatedData);
   };
 
   const submit = async () => {
-    const imageUrl = await uploadFileToFirebase(data.coverImage);
+    const imageUrl = await uploadFileToFirebase(data.coverImageFile);
     const blogCollection = collection(db, "blogs");
     const finalData = {
       ...data,
       coverImage: imageUrl,
       date: new Date(),
     };
+    delete finalData.coverImageFile;
     await addDoc(blogCollection, finalData);
   };
 
@@ -101,7 +120,9 @@ const AddBlogPage = ({ initData = null }) => {
       if (initData) await updateBlog();
       else await submit();
       toast.update("blog-upload", {
-        render: "Successfully created blog, you will be redirected",
+        render: `Successfully ${
+          initData ? "updated" : "created"
+        } blog, you will be redirected`,
         theme: "colored",
         type: "success",
         autoClose: 1000,
@@ -142,7 +163,7 @@ const AddBlogPage = ({ initData = null }) => {
     <div className="min-h-screen p-4 xl:ml-72 w-full">
       <ToastContainer />
       <p className="text-sm font-medium mb-10">Add Blog</p>
-      <form className="grid grid-cols-1 gap-5 bg-white p-5 rounded-md">
+      <form className="grid grid-cols-1 gap-10 bg-white p-5 rounded-md">
         <div className="">
           <label htmlFor="" className="font-medium text-sm">
             Blog title:
@@ -181,46 +202,76 @@ const AddBlogPage = ({ initData = null }) => {
             Cover image:
           </label>
           <br />
-          <input
-            type="file"
-            className="mt-2 "
-            placeholder="Cover image"
-            required
-            onChange={(e) =>
-              setData((prev) => ({ ...prev, coverImage: e.target.files[0] }))
-            }
-          />
+          {initData && !changeImage ? (
+            <>
+              <div className="w-full min-w-[250px] max-w-[500px] h-[150px] relative rounded-md">
+                <Image
+                  fill
+                  className="object-cover rounded-md"
+                  src={initData.coverImage.url}
+                />
+              </div>
+              <Button
+                variant="gradient"
+                color="blue"
+                className="mt-3"
+                onClick={() => {
+                  setChangeImage(true);
+                }}
+              >
+                Change Cover Image
+              </Button>
+            </>
+          ) : (
+            <>
+              <input
+                type="file"
+                className="mt-2 "
+                placeholder="Cover image"
+                required
+                onChange={(e) =>
+                  setData((prev) => ({
+                    ...prev,
+                    coverImageFile: e.target.files[0],
+                  }))
+                }
+              />
+              <Button
+                onClick={() => {
+                  setData((prev) => ({ ...prev, coverImageFile: null }));
+                  setChangeImage(false);
+                }}
+              >
+                Cancel
+              </Button>
+            </>
+          )}
         </div>
         <div className="">
           <label htmlFor="" className="font-medium text-sm">
             Blog Tags:
           </label>
           <br />
-          <input
-            type="text"
-            className="mt-2 custom-input"
-            placeholder="Tags"
-            required
-            value={tag}
-            onChange={(e) => setTag(e.target.value)}
-          />
-          {/* <button
-            type="button"
-            onClick={addTags}
-            className="ml-2 py-1 bg-blue-500 text-white rounded px-5"
-          >
-            Add
-          </button> */}
-          <Button
-            onClick={addTags}
-            disabled={tag.trim() !== "" ? false : true}
-            color="blue"
-            variant="gradient"
-            className="ml-2 py-2.5"
-          >
-            {" "}
-            Add
-          </Button>
+          <div className="flex items-end w-full">
+            <input
+              type="text"
+              className="mt-2 custom-input"
+              placeholder="Tags"
+              required
+              value={tag}
+              onChange={(e) => setTag(e.target.value)}
+            />
+            <Button
+              onClick={addTags}
+              disabled={tag.trim() !== "" ? false : true}
+              color="blue"
+              variant="gradient"
+              className="ml-2 py-2.5 h-fit"
+            >
+              {" "}
+              Add
+            </Button>
+          </div>
           <div className="mt-2">
             {data.tags.map((t, index) => (
               <span
@@ -266,10 +317,21 @@ const AddBlogPage = ({ initData = null }) => {
           <p>{data.readTime}</p>
           <p>minutes</p>
         </div>
-        <div className="">
+        <div className="flex gap-5">
           <Button color="green" variant="gradient" onClick={handleCreateUpdate}>
             {initData ? "Update" : "Submit"}
           </Button>
+          {initData && (
+            <Link href="/admin/blogs">
+              <Button
+                color="blue-gray"
+                variant="gradient"
+                className="text-white"
+              >
+                Cancel
+              </Button>
+            </Link>
+          )}
         </div>
       </form>
     </div>

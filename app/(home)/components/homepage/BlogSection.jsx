@@ -51,7 +51,7 @@ const BlogSection = async () => {
               )}
               tags={blog1.tags}
               image={blog1.coverImage.url}
-              duration={2}
+              duration={blog1.readTime}
               id={blog1.id}
             />
           </div>
@@ -62,7 +62,7 @@ const BlogSection = async () => {
               date={new Intl.DateTimeFormat("en-CA").format(
                 blog2.date.toDate()
               )}
-              duration={2}
+              duration={blog2.readTime}
               id={blog2.id}
             />
             <Blogsidecard
@@ -71,7 +71,7 @@ const BlogSection = async () => {
               date={new Intl.DateTimeFormat("en-CA").format(
                 blog3.date.toDate()
               )}
-              duration={2}
+              duration={blog3.readTime}
               id={blog3.id}
             />
             <Blogsidecard
@@ -80,7 +80,7 @@ const BlogSection = async () => {
               date={new Intl.DateTimeFormat("en-CA").format(
                 blog4.date.toDate()
               )}
-              duration={2}
+              duration={blog4.readTime}
               id={blog4.id}
             />
           </div>

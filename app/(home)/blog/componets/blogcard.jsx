@@ -8,6 +8,7 @@ const Blogcard = ({
   date,
   tags = [],
   id,
+  readTime = 1,
 }) => {
   // const markdownToPlainText = (markdown) => {
   //   return markdown
@@ -104,7 +105,7 @@ const Blogcard = ({
                   d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                 />
               </svg>
-              <p className="font-medium">2 MIN READ</p>
+              <p className="font-medium">{readTime} MIN READ</p>
             </div>
           </div>
           <p className="font-medium sm:block hidden mt-3 text-gray-800">
