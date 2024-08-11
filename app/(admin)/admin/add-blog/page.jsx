@@ -5,36 +5,39 @@ import { useCreateBlockNote } from "@blocknote/react";
 import { Button } from "@material-tailwind/react";
 import "@blocknote/mantine/style.css";
 import "@blocknote/core/fonts/inter.css";
-// import MDEditor from "@uiw/react-md-editor";
-// import {
-//   headingsPlugin,
-//   listsPlugin,
-//   MDXEditor,
-//   quotePlugin,
-//   thematicBreakPlugin,
-// } from "@mdxeditor/editor";
-// import "@mdxeditor/editor/style.css";
-// import MDEditor from "@uiw/react-md-editor";
-import { addDoc, collection } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytes,
+} from "firebase/storage";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { v4 } from "uuid";
+import Image from "next/image";
+import Link from "next/link";
 
-const Page = () => {
-  // const [markdown, setMarkdown] = useState("Nothing");
-  const editor = useCreateBlockNote({});
+const AddBlogPage = ({ initData = null }) => {
+  const editor = useCreateBlockNote(
+    initData ? { initialContent: initData.rawMarkdown } : {}
+  );
   const router = useRouter();
-  const [data, setData] = useState({
-    blogTitle: "",
-    description: "",
-    coverImage: null,
-    tags: [],
-    blog: "",
-    readtime: "",
-  });
+  const [data, setData] = useState(
+    initData
+      ? initData
+      : {
+          blogTitle: "",
+          description: "",
+          coverImageFile: null,
+          tags: [],
+          blog: "",
+          readTime: 0,
+        }
+  );
   const [tag, setTag] = useState("");
+  const [changeImage, setChangeImage] = useState(false);
 
   const addTags = () => {
     if (tag.trim() !== "") {
@@ -57,10 +60,11 @@ const Page = () => {
   const countWords = (text) => {
     return text.split(/\s+/).filter((word) => word.length > 0).length;
   };
-  const calculateReadingTime = () => {
-    const plainText = stripMarkdown(data.blog);
+
+  const calculateReadingTime = (blog) => {
+    const plainText = stripMarkdown(blog);
     const wordCount = countWords(plainText);
-    const wpm = 250;
+    const wpm = 200;
     const readingTimeMinutes = wordCount / wpm;
     return Number(readingTimeMinutes).toFixed(0);
   };
@@ -72,7 +76,39 @@ const Page = () => {
     const url = await getDownloadURL(uploadResult.ref);
     return { url: url, path: imageName };
   };
+
+  const updateBlog = async () => {
+    const docRef = doc(db, "blogs", initData.id);
+    let updatedData = {
+      ...data,
+      date: new Date(),
+    };
+    delete updatedData.coverImageFile;
+    if (changeImage) {
+      const imageRef = ref(imageDb, initData.coverImage.path);
+      await deleteObject(imageRef);
+      const imageUrl = await uploadFileToFirebase(data.coverImageFile);
+      updatedData = {
+        ...updatedData,
+        coverImage: imageUrl,
+      };
+    }
+    await updateDoc(docRef, updatedData);
+  };
+
   const submit = async () => {
+    const imageUrl = await uploadFileToFirebase(data.coverImageFile);
+    const blogCollection = collection(db, "blogs");
+    const finalData = {
+      ...data,
+      coverImage: imageUrl,
+      date: new Date(),
+    };
+    delete finalData.coverImageFile;
+    await addDoc(blogCollection, finalData);
+  };
+
+  const handleCreateUpdate = async () => {
     try {
       toast.info("Uploading data...", {
         toastId: "blog-upload",
@@ -80,20 +116,13 @@ const Page = () => {
         closeOnClick: false,
         theme: "colored",
       });
-      setData((prev) => ({
-        ...prev,
-        readtime: Number(calculateReadingTime()),
-      }));
-      const imageUrl = await uploadFileToFirebase(data.coverImage);
-      const blogCollection = collection(db, "blogs");
-      const finalData = {
-        ...data,
-        coverImage: imageUrl,
-        date: new Date(),
-      };
-      await addDoc(blogCollection, finalData);
+
+      if (initData) await updateBlog();
+      else await submit();
       toast.update("blog-upload", {
-        render: "Successfully created blog, you will be redirected",
+        render: `Successfully ${
+          initData ? "updated" : "created"
+        } blog, you will be redirected`,
         theme: "colored",
         type: "success",
         autoClose: 1000,
@@ -121,15 +150,20 @@ const Page = () => {
 
   const onMarkdownChange = async () => {
     const markdown = await editor.blocksToMarkdownLossy(editor.document);
-    setData({ ...data, blog: markdown });
-    setData({ ...data, readtime: calculateReadingTime() });
+    const rawMarkdown = editor.document;
+    setData({
+      ...data,
+      blog: markdown,
+      rawMarkdown: rawMarkdown,
+      readTime: calculateReadingTime(markdown),
+    });
   };
 
   return (
     <div className="min-h-screen p-4 xl:ml-72 w-full">
       <ToastContainer />
       <p className="text-sm font-medium mb-10">Add Blog</p>
-      <form className="grid grid-cols-1 gap-5 bg-white p-5 rounded-md">
+      <form className="grid grid-cols-1 gap-10 bg-white p-5 rounded-md">
         <div className="">
           <label htmlFor="" className="font-medium text-sm">
             Blog title:
@@ -168,46 +202,76 @@ const Page = () => {
             Cover image:
           </label>
           <br />
-          <input
-            type="file"
-            className="mt-2 "
-            placeholder="Cover image"
-            required
-            onChange={(e) =>
-              setData((prev) => ({ ...prev, coverImage: e.target.files[0] }))
-            }
-          />
+          {initData && !changeImage ? (
+            <>
+              <div className="w-full min-w-[250px] max-w-[500px] h-[150px] relative rounded-md">
+                <Image
+                  fill
+                  className="object-cover rounded-md"
+                  src={initData.coverImage.url}
+                />
+              </div>
+              <Button
+                variant="gradient"
+                color="blue"
+                className="mt-3"
+                onClick={() => {
+                  setChangeImage(true);
+                }}
+              >
+                Change Cover Image
+              </Button>
+            </>
+          ) : (
+            <>
+              <input
+                type="file"
+                className="mt-2 "
+                placeholder="Cover image"
+                required
+                onChange={(e) =>
+                  setData((prev) => ({
+                    ...prev,
+                    coverImageFile: e.target.files[0],
+                  }))
+                }
+              />
+              <Button
+                onClick={() => {
+                  setData((prev) => ({ ...prev, coverImageFile: null }));
+                  setChangeImage(false);
+                }}
+              >
+                Cancel
+              </Button>
+            </>
+          )}
         </div>
         <div className="">
           <label htmlFor="" className="font-medium text-sm">
             Blog Tags:
           </label>
           <br />
-          <input
-            type="text"
-            className="mt-2 custom-input"
-            placeholder="Tags"
-            required
-            value={tag}
-            onChange={(e) => setTag(e.target.value)}
-          />
-          {/* <button
-            type="button"
-            onClick={addTags}
-            className="ml-2 py-1 bg-blue-500 text-white rounded px-5"
-          >
-            Add
-          </button> */}
-          <Button
-            onClick={addTags}
-            disabled={tag.trim() !== "" ? false : true}
-            color="blue"
-            variant="gradient"
-            className="ml-2 py-2.5"
-          >
-            {" "}
-            Add
-          </Button>
+          <div className="flex items-end w-full">
+            <input
+              type="text"
+              className="mt-2 custom-input"
+              placeholder="Tags"
+              required
+              value={tag}
+              onChange={(e) => setTag(e.target.value)}
+            />
+            <Button
+              onClick={addTags}
+              disabled={tag.trim() !== "" ? false : true}
+              color="blue"
+              variant="gradient"
+              className="ml-2 py-2.5 h-fit"
+            >
+              {" "}
+              Add
+            </Button>
+          </div>
           <div className="mt-2">
             {data.tags.map((t, index) => (
               <span
@@ -239,20 +303,6 @@ const Page = () => {
             Blog :
           </label>
           <br />
-          {/* <MDEditor
-            className="mt-3"
-            value={data.blog}
-            onChange={(value) => setData((prev) => ({ ...prev, blog: value }))}
-            preview="edit"
-            data-color-mode="light"
-          /> */}
-          {/* <MDEditor
-            value={markdown}
-            onChange={setMarkdown}
-            previewOptions={{
-              rehypePlugins: [[rehypeSanitize]],
-            }}
-          /> */}
           <div className="py-4 px-1 min-h-24 border rounded-lg mt-4">
             <BlockNoteView
               editor={editor}
@@ -264,17 +314,28 @@ const Page = () => {
         <div className="flex justify-end gap-1">
           {" "}
           <p>Reading time: </p>
-          <p>{calculateReadingTime()}</p>
+          <p>{data.readTime}</p>
           <p>minutes</p>
         </div>
-        <div className="">
-          <Button color="green" variant="gradient" onClick={submit}>
-            Submit
+        <div className="flex gap-5">
+          <Button color="green" variant="gradient" onClick={handleCreateUpdate}>
+            {initData ? "Update" : "Submit"}
           </Button>
+          {initData && (
+            <Link href="/admin/blogs">
+              <Button
+                color="blue-gray"
+                variant="gradient"
+                className="text-white"
+              >
+                Cancel
+              </Button>
+            </Link>
+          )}
         </div>
       </form>
     </div>
   );
 };
 
-export default Page;
+export default AddBlogPage;

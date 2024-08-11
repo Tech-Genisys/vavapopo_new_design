@@ -106,6 +106,7 @@ const Page = () => {
                     description={item.description}
                     tags={item.tags}
                     id={item.id}
+                    readTime={item.readTime}
                   />
                 ))
               ) : (
@@ -114,7 +115,12 @@ const Page = () => {
             </div>
             <div>
               {blogData.length < totalBlogs && (
-                <button onClick={loadMore} className="px-4 py-2 rounded-md bg-foreground text-white font-medium hover:shadow-xl">Load More</button>
+                <button
+                  onClick={loadMore}
+                  className="px-4 py-2 rounded-md bg-foreground text-white font-medium hover:shadow-xl"
+                >
+                  Load More
+                </button>
               )}
             </div>
           </>
