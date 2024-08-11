@@ -1,7 +1,16 @@
 "use client";
 import Blogcard from "@/app/(home)/blog/componets/blogcard";
-import { db } from "@/app/firebase/firebaseinit";
-import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
+import { db, imageDb } from "@/app/firebase/firebaseinit";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  limit,
+  orderBy,
+  query,
+} from "firebase/firestore";
+import { deleteObject, ref } from "firebase/storage";
 import React, { useEffect, useState } from "react";
 
 function AdminBlogListPage() {
@@ -23,6 +32,19 @@ function AdminBlogListPage() {
       });
     });
     setBlogData(res);
+  };
+
+  const deleteBlog = async (id, imagePath) => {
+    try {
+      const docRef = doc(db, "blogs", id);
+      const imageRef = ref(imageDb, imagePath);
+      await deleteObject(imageRef);
+      await deleteDoc(docRef);
+      setBlogData((prev) => prev.filter((item) => item.id != id));
+      alert("Deleted successfully");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -55,7 +77,10 @@ function AdminBlogListPage() {
                     Edit
                   </button>
                 </a>
-                <button className="px-10 py-2 bg-[#fe4741] text-white font-bold rounded-lg hover:shadow-xl min-w-[140px]">
+                <button
+                  className="px-10 py-2 bg-[#fe4741] text-white font-bold rounded-lg hover:shadow-xl min-w-[140px]"
+                  onClick={() => deleteBlog(item.id, item.coverImage.path)}
+                >
                   Delete
                 </button>
               </div>
