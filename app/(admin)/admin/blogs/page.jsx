@@ -1,6 +1,7 @@
 "use client";
 import Blogcard from "@/app/(home)/blog/componets/blogcard";
 import { db, imageDb } from "@/app/firebase/firebaseinit";
+import AlertDialog from "@/app/helpers/alert_dialog";
 import { Button } from "@material-tailwind/react";
 import {
   collection,
@@ -77,20 +78,26 @@ function AdminBlogListPage() {
                 <a href={`/admin/blogs/${item.id}`}>
                   <Button
                     variant="gradient"
-                    color="orange"
+                    color="blue"
                     className="text-white min-w-[100px]"
                   >
                     Edit
                   </Button>
                 </a>
-                <Button
-                  className="text-white min-w-[100px]"
-                  variant="gradient"
-                  color="red"
-                  onClick={() => deleteBlog(item.id, item.coverImage.path)}
-                >
-                  Delete
-                </Button>
+                <AlertDialog
+                  title="Delete Blog!"
+                  description="Are you sure you want to delete this blog?"
+                  onConfirm={() => deleteBlog(item.id, item.coverImage.path)}
+                  btn={
+                    <Button
+                      variant="gradient"
+                      color="red"
+                      className="text-white min-w-[100px]"
+                    >
+                      Delete
+                    </Button>
+                  }
+                />
               </div>
             </div>
           ))}

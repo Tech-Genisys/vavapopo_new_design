@@ -1,8 +1,22 @@
 "use client";
 import { PackageCardSkeleton } from "@/app/(home)/components/cardSkeleton";
 import PackCard from "@/app/(home)/packs/components/PackCard";
-import { db } from "@/app/firebase/firebaseinit";
-import { collection, getDocs, limit, query, where } from "@firebase/firestore";
+import { db, imageDb } from "@/app/firebase/firebaseinit";
+import AlertDialog from "@/app/helpers/alert_dialog";
+import {
+  collection,
+  getDocs,
+  limit,
+  query,
+  where,
+  getDoc,
+  deleteDoc,
+  doc,
+  updateDoc,
+} from "@firebase/firestore";
+import { Button } from "@material-tailwind/react";
+import { deleteObject, ref } from "firebase/storage";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -12,7 +26,6 @@ function BookingPage() {
   const [packages, setPackages] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [trigger, setTrigger] = useState(false);
   const [searchState, setSearchState] = useState("");
 
   const getPacks = async (title = null) => {
@@ -44,25 +57,42 @@ function BookingPage() {
     setIsLoading(false);
   };
 
-  const showDeleteToast = (type) => {
-    if (type == "success") {
-      setTrigger((prev) => !prev);
-      toast.success("Successfully deleted the package", {
-        type: "success",
-        autoClose: 1500,
-        closeOnClick: true,
-      });
-    } else {
-      toast.error("Error while deleting the package", {
-        type: "error",
-        autoClose: 1500,
-        closeOnClick: true,
-      });
+  const deletePackFunc = async (id) => {
+    try {
+      const docRef = doc(db, "packages", id);
+      const packData = (await getDoc(docRef)).data();
+      const images = packData.days.flatMap((day) => day.images);
+      for (const index in images) {
+        const image = images[index];
+        const imageRef = ref(imageDb, image.path);
+        await deleteObject(imageRef);
+      }
+      await deleteDoc(docRef);
+      setPackages((prev) => prev.filter((item) => item.id != id));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const changeExclusiveStatus = async (id, bool) => {
+    try {
+      const docRef = doc(db, "packages", id);
+      await updateDoc(docRef, { exclusive: bool });
+      setPackages((prev) =>
+        prev.map((item) => {
+          if (item.id == id) {
+            item.exclusive = bool;
+          }
+          return item;
+        })
+      );
+    } catch (error) {
+      console.log(error);
     }
   };
   useEffect(() => {
     getPacks();
-  }, [trigger]);
+  }, []);
   return (
     <div className="min-h-screen p-4 xl:ml-72 w-full mt-10 xl:mt-0">
       <p className="font-medium text-sm mb-2">Edit package</p>
@@ -133,9 +163,9 @@ function BookingPage() {
         </div>
       </div>
       <p className="mt-20">Top {PAGE_LIMIT} packages</p>
-      <div className="mt-5 rounded-xl flex flex-col gap-5 bg-white w-fit">
+      <div className="mt-5 rounded-xl flex flex-col gap-5 w-full max-w-5xl">
         {isLoading ? (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 w-full">
             <PackageCardSkeleton />
             <PackageCardSkeleton />
             <PackageCardSkeleton />
@@ -143,18 +173,47 @@ function BookingPage() {
           </div>
         ) : (
           packages.map((item) => (
-            <PackCard
-              days={item.totalDays}
-              title={item.packageTitle}
-              description={item.description}
-              price={item.startingPrice}
-              images={item.days.flatMap((day) => day.images)}
-              state={item.state}
-              update={true}
-              id={item.id}
-              trigger={showDeleteToast}
-              exclusive={item.exclusive}
-            />
+            <div className="p-3 bg-white rounded-xl" key={item.id}>
+              <PackCard
+                days={item.totalDays}
+                title={item.packageTitle}
+                description={item.description}
+                price={item.startingPrice}
+                images={item.days.flatMap((day) => day.images)}
+                state={item.state}
+                id={item.id}
+              />
+              <div className="mt-4 flex gap-3 justify-center flex-wrap md:justify-start">
+                <Link href={`/admin/edit-package/${item.id}`}>
+                  <Button variant="gradient" color="blue">
+                    Edit
+                  </Button>
+                </Link>
+                <AlertDialog
+                title="Delete Package!"
+                description="Are you sure you want to delete this package?"
+                onConfirm={() => deletePackFunc(item.id)}
+                  btn={
+                    <Button
+                      variant="gradient"
+                      color="red"
+                    >
+                      Delete
+                    </Button>
+                  }
+                />
+                <Button
+                  variant="gradient"
+                  color={item.exclusive ? "blue-gray" : "green"}
+                  onClick={() => {
+                    if (item.exclusive) changeExclusiveStatus(item.id, false);
+                    else changeExclusiveStatus(item.id, true);
+                  }}
+                >
+                  {item.exclusive ? "Remove Exclusive" : "Mark Exclusive"}
+                </Button>
+              </div>
+            </div>
           ))
         )}
       </div>

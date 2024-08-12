@@ -3,10 +3,17 @@ import { db, imageDb } from "@/app/firebase/firebaseinit";
 import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import React, { useEffect, useRef, useState } from "react";
 import DayInputUpdate from "../components/daysInputUpdate";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import {
+  getDownloadURL,
+  ref,
+  uploadBytes,
+  deleteObject,
+} from "firebase/storage";
 import { v4 } from "uuid";
 import { ToastContainer, toast } from "react-toastify";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
+import { Button } from "@material-tailwind/react";
+import Link from "next/link";
 
 function EditPage({ params }) {
   const { id } = params;
@@ -33,7 +40,7 @@ function EditPage({ params }) {
     const docRef = doc(collection(db, "packages"), id);
     const res = await getDoc(docRef);
     if (!res.exists()) {
-      return <h1>Package not found</h1>;
+      return redirect("/404");
     }
     const resData = res.data();
     resData.days.forEach((item) => {
@@ -41,10 +48,10 @@ function EditPage({ params }) {
       item.images = [];
     });
     setDaysData(resData.days);
-    const newList = resData.days.map((item) => {
+    const newList = resData.days.map((item, index) => {
       return (
         <DayInputUpdate
-          day={2}
+          day={index == 0 ? 1 : 2}
           deleteDay={() => handleDeleteComponent(item.id)}
           setDaysData={setDaysData}
           setUnsaved={setUnsavedChange}
@@ -90,6 +97,17 @@ function EditPage({ params }) {
     return imageUrls;
   };
 
+  const deleteImageFunc = async (imageUrls) => {
+    try {
+      for (const imageUrl of imageUrls) {
+        const imageRef = ref(imageDb, imageUrl.path);
+        await deleteObject(imageRef);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const submitPackage = async () => {
     setIsSubmitting(true);
     toast.info("Updating....", {
@@ -102,6 +120,8 @@ function EditPage({ params }) {
     for (let i = 0; i < daysData.length; i++) {
       const images = daysData[i].images;
       const existingImg = daysData[i].existingImage;
+      const deletedImage = daysData[i].deletedImage;
+      if (deletedImage) await deleteImageFunc(deletedImage);
       let imageUrls = await uploadFileToFirebase(images);
       if (existingImg) {
         imageUrls = imageUrls.concat(existingImg);
@@ -116,7 +136,7 @@ function EditPage({ params }) {
       exclusive: packageData.exclusive,
       days: newDaysData,
       description: packageData.description,
-      date: new Date()
+      date: new Date(),
     };
     try {
       const docRef = doc(db, "packages", id);
@@ -159,8 +179,6 @@ function EditPage({ params }) {
     ]);
   };
 
-  console.log(daysData);
-
   return (
     <div className="min-h-screen p-4 xl:ml-72 w-full">
       <div className="grid grid-cols-1 gap-5 bg-white p-5 rounded-md">
@@ -171,7 +189,7 @@ function EditPage({ params }) {
           <br />
           <input
             type="text"
-            className="mt-2 py-1 w-full max-w-2xl rounded-md px-4 border border-gray-400"
+            className="mt-2 custom-input"
             placeholder="Title"
             required
             value={packageData.packageTitle}
@@ -190,7 +208,7 @@ function EditPage({ params }) {
           <br />
           <input
             type="text"
-            className="mt-2 py-1 w-full max-w-2xl rounded-md px-4 border border-gray-400"
+            className="mt-2 custom-input"
             placeholder="Price"
             required
             value={packageData.startingPrice}
@@ -210,7 +228,7 @@ function EditPage({ params }) {
           <textarea
             ref={textAreaRef}
             type="text"
-            className="mt-2 py-1 w-full max-w-2xl rounded-md px-4 min-h-20 border border-gray-400"
+            className="mt-2 custom-input"
             placeholder="A short description"
             value={packageData.description}
             onChange={(e) =>
@@ -228,7 +246,7 @@ function EditPage({ params }) {
           </label>
           <br />
           <select
-            className="py-1 px-6 rounded-md bg-white border border-gray-400"
+            className="mt-2 custom-input"
             value={packageData.state}
             onChange={(e) =>
               setPackageData((prev) => ({ ...prev, state: e.target.value }))
@@ -265,27 +283,34 @@ function EditPage({ params }) {
         </div>
         <div className="mt-10">
           {daysInput.map((item, index) => (
-            <div>
+            <div className="mt-5">
               <p className="text-sm mb-1 font-medium">Day {index + 1}</p>
               {item}
             </div>
           ))}
         </div>
         <div className="flex justify-start gap-5">
-          <button
+          <Button
             onClick={addNewDay}
-            className="py-1 px-4 rounded-md bg-gradient-to-b from-gray-800 to-gray-900 text-white font-medium disabled:bg-gradient-to-b disabled:from-gray-500 disabled:to-gray-600"
+            variant="gradient"
+            color="blue"
             disabled={unsavedChange || isSubmitting}
           >
             Add day
-          </button>
-          <button
-            className="py-1 px-4 rounded-md bg-gradient-to-b from-gray-800 to-gray-900 text-white font-medium disabled:bg-gradient-to-b disabled:from-gray-500 disabled:to-gray-600"
+          </Button>
+          <Button
+            variant="gradient"
+            color="green"
             disabled={unsavedChange || isSubmitting}
             onClick={submitPackage}
           >
             Update
-          </button>
+          </Button>
+          <Link href="/admin/packages">
+            <Button color="blue-gray" variant="gradient">
+              Cancel
+            </Button>
+          </Link>
         </div>
       </div>
       <ToastContainer />
