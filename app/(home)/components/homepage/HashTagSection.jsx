@@ -2,6 +2,7 @@ import HashTagCard from "./HashTag/HashTagCard";
 
 const getRecendHasthtags = async () => {
   const url = process.env.NEXT_PUBLIC_RAPIDAPI_URL;
+  const userGetUrl = process.env.NEXT_PUBLIC_RAPIDAPI_USER_URL;
   const options = {
     method: "GET",
     headers: {
@@ -12,16 +13,22 @@ const getRecendHasthtags = async () => {
   try {
     const response = await fetch(url, options);
     const rawData = (await response.json()).data.items;
-    const filteredData = rawData.map((item) => {
-      const data = item.node;
-      if (!data.is_video) {
-        return {
-          imageUrl: data.display_url,
-          id: data.id,
-        };
+    const filteredData = [];
+    let count = 0;
+    for (let item of rawData) {
+      if (count == 6) break;
+      item = item.node;
+      if (!item.is_video) {
+        const user = await fetch(`${userGetUrl}/${item.owner.id}`, options);
+        const username = (await user.json()).data.username;
+        filteredData.push({
+          imageUrl: item.display_url,
+          userId: username,
+        });
+        count++;
       }
-    });
-    return filteredData.slice(0, 6);
+    }
+    return filteredData;
   } catch (error) {
     console.log(error);
     return [];
@@ -45,9 +52,10 @@ const HashTagSection = async () => {
         </p>
       </div>
       <div className="grid grid-cols-3 lg:grid-cols-6">
-        {data.map(item => (
-          <HashTagCard img={item.imageUrl}/>
-        ))}
+        {data &&
+          data.map((item) => (
+            <HashTagCard img={item.imageUrl} name={item.userId} />
+          ))}
       </div>
       <div className="bg-dark py-8 flex justify-center gap-3 text-white w-full">
         <h1 className="font-semibold text-base">Follow Vavapopo :</h1>
