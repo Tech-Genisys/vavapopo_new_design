@@ -1,8 +1,6 @@
 "use client";
-import { imageDb } from "@/app/firebase/firebaseinit";
 import AlertDialog from "@/app/helpers/alert_dialog";
 import { Button } from "@material-tailwind/react";
-import { deleteObject, ref } from "firebase/storage";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 const DayInputUpdate = ({
@@ -19,8 +17,8 @@ const DayInputUpdate = ({
   const [Images, setImages] = useState([]);
   const [isSubmited, setIsSubmited] = useState(false);
   const [existingImage, setExistingImage] = useState([]);
-  const [uid, setUid] = useState(null);
-  console.log(id);
+  const [deletedImage, setDeletedImage] = useState([]);
+
   useEffect(() => {
     if (updateStateData) {
       setTitle(updateStateData.title);
@@ -44,8 +42,6 @@ const DayInputUpdate = ({
 
   const submitDay = (e) => {
     e.preventDefault();
-    console.log("submitting");
-    console.log(existingImage);
     setDaysData((prev) => {
       let found = false;
       const updatingData = prev.map((item) => {
@@ -55,6 +51,7 @@ const DayInputUpdate = ({
           item.description = Description;
           item.images = Images;
           item.existingImage = existingImage;
+          item.deletedImage = deletedImage;
         }
         return item;
       });
@@ -77,16 +74,10 @@ const DayInputUpdate = ({
   };
 
   const deleteExistingImage = async (imageUrl) => {
-    const imageRef = ref(imageDb, imageUrl.path);
-    try {
-      await deleteObject(imageRef);
-      alert("successfully deleted");
-      setExistingImage((prev) => {
-        return prev.filter((image) => image !== imageUrl);
-      });
-    } catch (e) {
-      alert("error");
-    }
+    setExistingImage((prev) => {
+      return prev.filter((image) => image !== imageUrl);
+    });
+    setDeletedImage((prev) => [...prev, imageUrl]);
   };
 
   return (

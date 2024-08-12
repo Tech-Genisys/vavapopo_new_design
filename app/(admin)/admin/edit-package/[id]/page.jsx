@@ -3,7 +3,12 @@ import { db, imageDb } from "@/app/firebase/firebaseinit";
 import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import React, { useEffect, useRef, useState } from "react";
 import DayInputUpdate from "../components/daysInputUpdate";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import {
+  getDownloadURL,
+  ref,
+  uploadBytes,
+  deleteObject,
+} from "firebase/storage";
 import { v4 } from "uuid";
 import { ToastContainer, toast } from "react-toastify";
 import { redirect, useRouter } from "next/navigation";
@@ -92,6 +97,17 @@ function EditPage({ params }) {
     return imageUrls;
   };
 
+  const deleteImageFunc = async (imageUrls) => {
+    try {
+      for (const imageUrl of imageUrls) {
+        const imageRef = ref(imageDb, imageUrl.path);
+        await deleteObject(imageRef);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const submitPackage = async () => {
     setIsSubmitting(true);
     toast.info("Updating....", {
@@ -104,6 +120,8 @@ function EditPage({ params }) {
     for (let i = 0; i < daysData.length; i++) {
       const images = daysData[i].images;
       const existingImg = daysData[i].existingImage;
+      const deletedImage = daysData[i].deletedImage;
+      if (deletedImage) await deleteImageFunc(deletedImage);
       let imageUrls = await uploadFileToFirebase(images);
       if (existingImg) {
         imageUrls = imageUrls.concat(existingImg);
@@ -265,7 +283,7 @@ function EditPage({ params }) {
         </div>
         <div className="mt-10">
           {daysInput.map((item, index) => (
-            <div>
+            <div className="mt-5">
               <p className="text-sm mb-1 font-medium">Day {index + 1}</p>
               {item}
             </div>
