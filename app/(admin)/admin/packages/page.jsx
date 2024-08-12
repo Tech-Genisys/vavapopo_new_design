@@ -2,6 +2,7 @@
 import { PackageCardSkeleton } from "@/app/(home)/components/cardSkeleton";
 import PackCard from "@/app/(home)/packs/components/PackCard";
 import { db, imageDb } from "@/app/firebase/firebaseinit";
+import AlertDialog from "@/app/helpers/alert_dialog";
 import {
   collection,
   getDocs,
@@ -184,17 +185,23 @@ function BookingPage() {
               />
               <div className="mt-4 flex gap-3 justify-center flex-wrap md:justify-start">
                 <Link href={`/admin/edit-package/${item.id}`}>
-                  <Button variant="gradient" color="orange">
+                  <Button variant="gradient" color="blue">
                     Edit
                   </Button>
                 </Link>
-                <Button
-                  variant="gradient"
-                  color="red"
-                  onClick={() => deletePackFunc(item.id)}
-                >
-                  Delete
-                </Button>
+                <AlertDialog
+                title="Delete Package!"
+                description="Are you sure you want to delete this package?"
+                onConfirm={() => deletePackFunc(item.id)}
+                  btn={
+                    <Button
+                      variant="gradient"
+                      color="red"
+                    >
+                      Delete
+                    </Button>
+                  }
+                />
                 <Button
                   variant="gradient"
                   color={item.exclusive ? "blue-gray" : "green"}

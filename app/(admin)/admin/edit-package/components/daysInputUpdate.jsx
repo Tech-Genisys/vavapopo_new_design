@@ -1,5 +1,6 @@
 "use client";
 import { imageDb } from "@/app/firebase/firebaseinit";
+import AlertDialog from "@/app/helpers/alert_dialog";
 import { Button } from "@material-tailwind/react";
 import { deleteObject, ref } from "firebase/storage";
 import Image from "next/image";
@@ -134,14 +135,21 @@ const DayInputUpdate = ({
                   <Image src={image.url} fill className="w-full rounded-md" />
                 </div>
                 {!isSubmited && (
-                  <Button
-                    color="red"
-                    variant="gradient"
-                    className="w-full mt-2"
-                    onClick={() => deleteExistingImage(image)}
-                  >
-                    Delete
-                  </Button>
+                  <AlertDialog
+                    title="Delete Image!"
+                    description="Are you sure you want to delete this image?"
+                    onConfirm={() => deleteExistingImage(image)}
+                    fullWidthBtn
+                    btn={
+                      <Button
+                        color="red"
+                        variant="gradient"
+                        className="w-full mt-2"
+                      >
+                        Delete
+                      </Button>
+                    }
+                  />
                 )}
               </div>
             ))}
