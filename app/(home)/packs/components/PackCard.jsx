@@ -5,13 +5,10 @@ import {
   AccordionHeader,
   AccordionBody,
   Carousel,
+  Button,
 } from "@material-tailwind/react";
 import Link from "next/link";
-import { collection, deleteDoc, doc, updateDoc } from "firebase/firestore";
-import { ToastContainer, toast } from "react-toastify";
-import { db, imageDb } from "@/app/firebase/firebaseinit";
 import Image from "next/image";
-import { deleteObject, ref } from "firebase/storage";
 
 function Icon({ id, open }) {
   return (
@@ -40,40 +37,9 @@ const PackCard = ({
   description,
   days,
   state,
-  update = null,
   id = null,
-  trigger = null,
-  exclusive = null,
 }) => {
   const [open, setOpen] = React.useState(0);
-  const [deletePack, setDeltePack] = useState(false);
-
-  const deletePackFunc = async () => {
-    try {
-      console.log(id);
-      const docRef = doc(db, "packages", id);
-      for (const index in images) {
-        const image = images[index];
-        const imageRef = ref(imageDb, image.path);
-        await deleteObject(imageRef);
-      }
-      await deleteDoc(docRef);
-      trigger("success");
-    } catch (error) {
-      console.log(error);
-      trigger("error");
-    }
-  };
-
-  const changeExclusiveStatus = async (bool) => {
-    try {
-      const docRef = doc(db, "packages", id);
-      await updateDoc(docRef, { exclusive: bool });
-      trigger("success");
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const handleOpen = (value) => setOpen(open === value ? 0 : value);
   const splitDescription = (desc, wordLimit) => {
@@ -106,30 +72,25 @@ const PackCard = ({
         className=" lg:max-w-[500px] h-[200px] sm:h-[270px]  object-cover rounded-xl w-full min-w-[200px]"
         loop
       >
-        {images
-          ? images.map((e) => {
-              return (
-                <>
-                  <Image
-                    src={e.url}
-                    width={500}
-                    height={500}
-                    priority
-                    alt="image 1"
-                    className="h-full w-full object-cover"
-                  />
-                </>
-              );
-            })
-          : "loading"}
+        {images.map((e) => {
+          return (
+            <>
+              <Image
+                src={e.url}
+                width={500}
+                height={500}
+                priority
+                alt="image 1"
+                className="h-full w-full object-cover"
+              />
+            </>
+          );
+        })}
       </Carousel>
       <div className=" flex flex-col py-5 px-6 justify-between w-full">
         <div className="">
-          <h1 className="font-semibold  text-xl sm:text-2xl">
-            {title ? title : "Title"}
-          </h1>
+          <h1 className="font-semibold  text-xl sm:text-2xl">{title}</h1>
           <p className="text-sm sm:text-base underline mt-2 flex items-center gap-1">
-            {" "}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -151,14 +112,9 @@ const PackCard = ({
             </svg>
             {state}
           </p>
-          <div className=" flex  ">
-            {/* <p className="font-semibold text-xl bg-[#56BD80] px-5 py-1 rounded-2xl text-white mt-5">
-              Show Details
-            </p> */}
-          </div>
           <div className=" flex gap-3 mt-3 flex-wrap">
             <p className="bg-purple-50 px-4 py-1 rounded-full font-bold text-sm">
-              Defualt Days : {days ? days : "0 Days"}
+              Defualt Days : {days}
             </p>
             <p className="bg-green-50 px-4 py-1 rounded-full font-bold text-sm">
               Custom plan
@@ -176,68 +132,27 @@ const PackCard = ({
             </AccordionBody>
           </Accordion>
         </div>
-        <div className=" mt-3 flex justify-between items-end">
-          <div className="flex gap-1 items-end">
-            {" "}
-            <h1 className=" text-xs sm:text-sm md:text-base font-semibold ">
-              Starting @{" "}
-            </h1>
-            <h1 className="font-bold text-sm sm:text-base md:text-lg ">
-              {" "}
-              ₹{price ? price : "Loading"}
-            </h1>
+        <div className="flex flex-col md:flex-row gap-4 md:items-end md:justify-between mt-3">
+          <div className=" mt-3 flex justify-between items-end">
+            <div className="flex gap-1 items-center">
+              <h1 className=" text-xs sm:text-sm md:text-base font-semibold ">
+                Starting @
+              </h1>
+              <h1 className="font-bold text-sm sm:text-base md:text-lg ">
+                ₹{price}
+              </h1>
+            </div>
           </div>
-        </div>
-        {update ? (
-          <div className="gap-5 grid grid-cols-2">
-            <Link href={`/admin/edit-package/${id}`} className="w-full">
-              <button className="px-4 py-1 rounded-md bg-orange-300 font-medium hover:scale-105 hover:shadow-lg w-full">
-                Edit
-              </button>
-            </Link>
-            {deletePack ? (
-              <div className="flex gap-3 w-full">
-                <button
-                  className="px-4 py-1 rounded-md bg-red-500 font-medium hover:scale-105 hover:shadow-lg w-full"
-                  onClick={deletePackFunc}
-                >
-                  Confirm
-                </button>
-
-                <button
-                  className="px-2 py-1 rounded-md bg-orange-300 font-medium hover:scale-105 hover:shadow-lg w-full"
-                  onClick={() => setDeltePack(false)}
-                >
-                  Cancel
-                </button>
-              </div>
-            ) : (
-              <button
-                className="px-4 py-1 rounded-md bg-red-400 font-medium hover:scale-105 hover:shadow-lg w-full"
-                onClick={() => setDeltePack(true)}
-              >
-                Delete
-              </button>
-            )}
-            <button
-              className={`px-4 py-1 rounded-md ${
-                exclusive ? "bg-red-400" : "bg-green-400"
-              } font-medium hover:scale-105 hover:shadow-lg`}
-              onClick={() => {
-                if (exclusive) changeExclusiveStatus(false);
-                else changeExclusiveStatus(true);
-              }}
+          <Link href={`/trip/${id}`} className="w-full md:w-fit">
+            <Button
+              color="amber"
+              variant="gradient"
+              className="text-white font-bold w-full"
             >
-              {exclusive ? "Remove from exclusive" : "Add to exclusive"}
-            </button>
-          </div>
-        ) : (
-          <Link href={`/trip/${id}`}>
-            <button className="px-4 py-1 rounded-md bg-orange-300 shadow font-bold   hover:scale-100 hover:shadow-lg w-full md:max-w-[200px] mt-3 md:mt-0">
-              Show
-            </button>
+              Show More
+            </Button>
           </Link>
-        )}
+        </div>
       </div>
     </div>
   );
