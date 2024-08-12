@@ -1,8 +1,35 @@
-"use client";
-
 import HashTagCard from "./HashTag/HashTagCard";
 
-const HashTagSection = () => {
+const getRecendHasthtags = async () => {
+  const url = process.env.NEXT_PUBLIC_RAPIDAPI_URL;
+  const options = {
+    method: "GET",
+    headers: {
+      "x-rapidapi-key": process.env.NEXT_PUBLIC_RAPIDAPI_KEY,
+    },
+  };
+
+  try {
+    const response = await fetch(url, options);
+    const rawData = (await response.json()).data.items;
+    const filteredData = rawData.map((item) => {
+      const data = item.node;
+      if (!data.is_video) {
+        return {
+          imageUrl: data.display_url,
+          id: data.id,
+        };
+      }
+    });
+    return filteredData.slice(0, 6);
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
+const HashTagSection = async () => {
+  const data = await getRecendHasthtags();
   return (
     <div className="w-full flex flex-col py-10 bg-background overflow-hidden">
       <div className="bg-dark py-5 text-white">
@@ -18,42 +45,9 @@ const HashTagSection = () => {
         </p>
       </div>
       <div className="grid grid-cols-3 lg:grid-cols-6">
-        <HashTagCard
-          name={"Abhinav"}
-          img={
-            "https://plus.unsplash.com/premium_photo-1672505214510-18a100dd4595?q=80&w=1937&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          }
-        />
-        <HashTagCard
-          name={"Abhinav"}
-          img={
-            "https://plus.unsplash.com/premium_photo-1672505214510-18a100dd4595?q=80&w=1937&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          }
-        />
-        <HashTagCard
-          name={"Abhinav"}
-          img={
-            "https://plus.unsplash.com/premium_photo-1672505214510-18a100dd4595?q=80&w=1937&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          }
-        />
-        <HashTagCard
-          name={"Abhinav"}
-          img={
-            "https://plus.unsplash.com/premium_photo-1672505214510-18a100dd4595?q=80&w=1937&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          }
-        />
-        <HashTagCard
-          name={"Abhinav"}
-          img={
-            "https://plus.unsplash.com/premium_photo-1672505214510-18a100dd4595?q=80&w=1937&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          }
-        />
-        <HashTagCard
-          name={"Abhinav"}
-          img={
-            "https://plus.unsplash.com/premium_photo-1672505214510-18a100dd4595?q=80&w=1937&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          }
-        />
+        {data.map(item => (
+          <HashTagCard img={item.imageUrl}/>
+        ))}
       </div>
       <div className="bg-dark py-8 flex justify-center gap-3 text-white w-full">
         <h1 className="font-semibold text-base">Follow Vavapopo :</h1>
