@@ -12,6 +12,8 @@ const { default: BlogClientPage } = require("./componets/blogClientSide");
 
 const PAGE_LIMIT = 20;
 
+export const revalidate = 86400;
+
 const getBlogCount = async () => {
   const q = query(collection(db, "blogs"));
   const snapshot = await getCountFromServer(q);
