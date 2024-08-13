@@ -36,7 +36,9 @@ const getRecendHasthtags = async () => {
 };
 
 const HashTagSection = async () => {
-  const data = await getRecendHasthtags();
+  // const data = await getRecendHasthtags();
+  const data = null;
+  if (!data) return;
   return (
     <div className="w-full flex flex-col py-10 bg-background overflow-hidden">
       <div className="bg-dark py-5 text-white">

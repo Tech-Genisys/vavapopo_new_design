@@ -5,6 +5,8 @@ import Blogsidecard from "./blogs/blogsidecard";
 import { collection, getDocs, limit, query } from "firebase/firestore";
 import { db } from "@/app/firebase/firebaseinit";
 
+export const revalidate = 86400;
+
 const getBlogData = async () => {
   try {
     const q = query(collection(db, "blogs"), limit(4));
