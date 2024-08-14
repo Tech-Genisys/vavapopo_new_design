@@ -3,9 +3,10 @@ import { db } from "@/app/firebase/firebaseinit";
 import { NextResponse } from "next/server";
 import { revalidatePath, revalidateTag } from "next/cache";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(request) {
   try {
-    const header = request.headers;
     let res = await getDocs(
       query(collection(db, "packages"), where("exclusive", "==", true))
     );
