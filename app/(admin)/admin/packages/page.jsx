@@ -13,6 +13,7 @@ import {
   deleteDoc,
   doc,
   updateDoc,
+  orderBy,
 } from "@firebase/firestore";
 import { Button } from "@material-tailwind/react";
 import { deleteObject, ref } from "firebase/storage";
@@ -20,7 +21,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
-const PAGE_LIMIT = 15;
+const PAGE_LIMIT = 30;
 
 function BookingPage() {
   const [packages, setPackages] = useState([]);
@@ -30,12 +31,12 @@ function BookingPage() {
 
   const getPacks = async (title = null) => {
     setIsLoading(true);
-    let q = query(collection(db, "packages"), limit(15));
+    let q = query(collection(db, "packages"));
     if (searchState) {
       q = query(
         collection(db, "packages"),
         where("state", "==", searchState),
-        limit(PAGE_LIMIT)
+        orderBy("date", "desc")
       );
     }
     const res = await getDocs(q);
@@ -51,9 +52,11 @@ function BookingPage() {
         }
       });
     } else {
-      res.forEach((item) => resList.push({ id: item.id, ...item.data() }));
+      res.forEach((item) => {
+        resList.push({ id: item.id, ...item.data() });
+      });
     }
-    setPackages(resList);
+    setPackages(resList.slice(0, PAGE_LIMIT));
     setIsLoading(false);
   };
 
@@ -190,14 +193,11 @@ function BookingPage() {
                   </Button>
                 </Link>
                 <AlertDialog
-                title="Delete Package!"
-                description="Are you sure you want to delete this package?"
-                onConfirm={() => deletePackFunc(item.id)}
+                  title="Delete Package!"
+                  description="Are you sure you want to delete this package?"
+                  onConfirm={() => deletePackFunc(item.id)}
                   btn={
-                    <Button
-                      variant="gradient"
-                      color="red"
-                    >
+                    <Button variant="gradient" color="red">
                       Delete
                     </Button>
                   }

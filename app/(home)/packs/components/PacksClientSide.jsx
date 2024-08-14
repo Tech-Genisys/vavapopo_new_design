@@ -14,6 +14,7 @@ import {
   startAfter,
   getDoc,
   doc,
+  and,
 } from "@firebase/firestore";
 import { db } from "@/app/firebase/firebaseinit";
 import { PackageCardSkeleton } from "../../components/cardSkeleton";
@@ -26,8 +27,8 @@ const PacksClientSide = ({
 }) => {
   const [packData, setPackData] = useState(initData);
   const [isLoading, setIsLoading] = useState(true);
-  const [destination, setDestination] = useState("");
-  const [days, setDays] = useState("");
+  const [destination, setDestination] = useState("none");
+  const [days, setDays] = useState(0);
   const [lastDoc, setLastDoc] = useState(null);
 
   const getInitLastDoc = async () => {
@@ -41,25 +42,31 @@ const PacksClientSide = ({
     try {
       let daysInInt = null;
       if (days) daysInInt = parseInt(days);
-      let q = query(collection(db, "packages"), limit(PAGE_SIZE));
-      if (destination && !days) {
+      let q = query(
+        collection(db, "packages"),
+        orderBy("date", "desc"),
+        limit(PAGE_SIZE)
+      );
+      if (destination != "none" && days == 0) {
         q = query(
           collection(db, "packages"),
           where("state", "==", destination),
           limit(PAGE_SIZE)
         );
-      } else if (days && !destination) {
+      } else if (days != 0 && destination == "none") {
         q = query(
           collection(db, "packages"),
           where("totalDays", "<=", daysInInt),
           orderBy("totalDays", "desc"),
           limit(PAGE_SIZE)
         );
-      } else if (days && destination) {
+      } else if (days != 0 && destination != "none") {
         q = query(
           collection(db, "packages"),
-          where("state", "==", destination),
-          where("totalDays", "<=", daysInInt),
+          and(
+            where("state", "==", destination),
+            where("totalDays", "<=", daysInInt)
+          ),
           orderBy("totalDays", "desc"),
           limit(PAGE_SIZE)
         );

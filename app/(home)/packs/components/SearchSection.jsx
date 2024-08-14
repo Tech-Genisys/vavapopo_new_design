@@ -11,15 +11,7 @@ const SearchSection = ({
 }) => {
   const handleFilter = async (e) => {
     e.preventDefault();
-    if (!destination && !days) return;
     filter();
-    // if (destination && !days) {
-    //   filter();
-    // } else if (!destination && days) {
-    //   filter();
-    // } else {
-    //   filter();
-    // }
   };
   return (
     <div className="py-32">
@@ -38,7 +30,7 @@ const SearchSection = ({
                 value={destination}
                 onChange={(e) => setDestination(e.target.value)}
               >
-                <option value="">----select----</option>
+                <option value="none">All</option>
                 <option value="Kerala">Kerala</option>
                 <option value="Goa">Goa</option>
                 <option value="Rajasthan">Rajasthan</option>
@@ -60,7 +52,7 @@ const SearchSection = ({
                 value={days}
                 onChange={(e) => setDays(e.target.value)}
               >
-                <option value="">----select----</option>
+                <option value="0">All</option>
                 <option value="5">5 days</option>
                 <option value="7">7 days</option>
                 <option value="10">10 days</option>

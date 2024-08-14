@@ -1,5 +1,4 @@
 import React from "react";
-import Blogcard from "../../blog/componets/blogcard";
 import Blogmaincard from "./blogs/blogmaincard";
 import Blogsidecard from "./blogs/blogsidecard";
 import { collection, getDocs, limit, query } from "firebase/firestore";
