@@ -1,11 +1,16 @@
 import ExclusivePackCarousel from "./ExclusivePack/ExclusivePackCarousel";
 
 const ExclusiveSection = async () => {
-  const packData = await (
-    await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api`, {
-      next: { tags: "homepage_exc" },
-    })
-  ).json();
+  let packData = [];
+  try {
+    packData = await (
+      await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api`, {
+        next: { tags: "homepage_exc" },
+      })
+    ).json();
+  } catch (error) {
+    console.log(error);
+  }
   if (packData.length < 2) return <div></div>;
   return (
     <div className="w-full flex justify-center min-h-screen bg-background py-0 lg:py-24 overflow-hidden">
