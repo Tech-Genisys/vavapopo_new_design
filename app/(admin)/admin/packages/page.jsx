@@ -3,6 +3,7 @@ import { PackageCardSkeleton } from "@/app/(home)/components/cardSkeleton";
 import PackCard from "@/app/(home)/packs/components/PackCard";
 import { db, imageDb } from "@/app/firebase/firebaseinit";
 import AlertDialog from "@/app/helpers/alert_dialog";
+import RevalidationHelper from "@/app/helpers/revalidationHelper";
 import {
   collection,
   getDocs,
@@ -13,6 +14,7 @@ import {
   deleteDoc,
   doc,
   updateDoc,
+  orderBy,
 } from "@firebase/firestore";
 import { Button } from "@material-tailwind/react";
 import { deleteObject, ref } from "firebase/storage";
@@ -20,7 +22,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
-const PAGE_LIMIT = 15;
+const PAGE_LIMIT = 30;
 
 function BookingPage() {
   const [packages, setPackages] = useState([]);
@@ -30,12 +32,12 @@ function BookingPage() {
 
   const getPacks = async (title = null) => {
     setIsLoading(true);
-    let q = query(collection(db, "packages"), limit(15));
+    let q = query(collection(db, "packages"));
     if (searchState) {
       q = query(
         collection(db, "packages"),
         where("state", "==", searchState),
-        limit(PAGE_LIMIT)
+        orderBy("date", "desc")
       );
     }
     const res = await getDocs(q);
@@ -51,9 +53,11 @@ function BookingPage() {
         }
       });
     } else {
-      res.forEach((item) => resList.push({ id: item.id, ...item.data() }));
+      res.forEach((item) => {
+        resList.push({ id: item.id, ...item.data() });
+      });
     }
-    setPackages(resList);
+    setPackages(resList.slice(0, PAGE_LIMIT));
     setIsLoading(false);
   };
 
@@ -69,6 +73,8 @@ function BookingPage() {
       }
       await deleteDoc(docRef);
       setPackages((prev) => prev.filter((item) => item.id != id));
+      await RevalidationHelper("/packs");
+      if (packData.exclusive) await RevalidationHelper("homepage_exc", "tag");
     } catch (error) {
       console.log(error);
     }
@@ -86,6 +92,7 @@ function BookingPage() {
           return item;
         })
       );
+      await RevalidationHelper("homepage_exc", "tag");
     } catch (error) {
       console.log(error);
     }
@@ -190,14 +197,11 @@ function BookingPage() {
                   </Button>
                 </Link>
                 <AlertDialog
-                title="Delete Package!"
-                description="Are you sure you want to delete this package?"
-                onConfirm={() => deletePackFunc(item.id)}
+                  title="Delete Package!"
+                  description="Are you sure you want to delete this package?"
+                  onConfirm={() => deletePackFunc(item.id)}
                   btn={
-                    <Button
-                      variant="gradient"
-                      color="red"
-                    >
+                    <Button variant="gradient" color="red">
                       Delete
                     </Button>
                   }

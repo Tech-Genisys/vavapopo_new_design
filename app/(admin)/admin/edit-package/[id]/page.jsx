@@ -14,6 +14,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { redirect, useRouter } from "next/navigation";
 import { Button } from "@material-tailwind/react";
 import Link from "next/link";
+import RevalidationHelper from "@/app/helpers/revalidationHelper";
 
 function EditPage({ params }) {
   const { id } = params;
@@ -152,6 +153,9 @@ function EditPage({ params }) {
           router.replace("/admin/packages");
         },
       });
+      await RevalidationHelper("/packs");
+      if (packageData.exclusive)
+        await RevalidationHelper("homepage_exc", "tag");
     } catch (error) {
       console.log(error);
       setIsSubmitting(false);

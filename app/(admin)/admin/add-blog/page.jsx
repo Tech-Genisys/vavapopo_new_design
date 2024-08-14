@@ -18,6 +18,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { v4 } from "uuid";
 import Image from "next/image";
 import Link from "next/link";
+import RevalidationHelper from "@/app/helpers/revalidationHelper";
 
 const AddBlogPage = ({ initData = null }) => {
   const editor = useCreateBlockNote(
@@ -130,6 +131,7 @@ const AddBlogPage = ({ initData = null }) => {
           router.replace("/admin");
         },
       });
+      await RevalidationHelper("/blog");
     } catch (error) {
       console.log(error);
       toast.update("blog-upload", {
