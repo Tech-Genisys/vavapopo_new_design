@@ -14,24 +14,38 @@ import {
 } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
 import React, { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+
+const PAGE_LIMIT = 30;
 
 function AdminBlogListPage() {
   const [blogData, setBlogData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchText, setSearchText] = useState("");
 
-  const getBlogData = async () => {
+  const getBlogData = async (title = null) => {
     const q = query(
       collection(db, "blogs"),
       orderBy("date", "desc"),
-      limit(20)
+      limit(100)
     );
     const data = await getDocs(q);
     const res = [];
     data.forEach((item) => {
-      res.push({
-        id: item.id,
-        ...item.data(),
-      });
+      const blog = item.data();
+      if (title) {
+        if (blog.blogTitle.toLowerCase().includes(title.toLowerCase())) {
+          res.push({
+            id: item.id,
+            ...blog,
+          });
+        }
+      } else {
+        res.push({
+          id: item.id,
+          ...blog,
+        });
+      }
     });
     setBlogData(res);
   };
@@ -56,12 +70,59 @@ function AdminBlogListPage() {
     })();
   }, []);
 
+  const paginatedData =
+    blogData && blogData.length > PAGE_LIMIT
+      ? blogData.slice(0, PAGE_LIMIT)
+      : blogData;
   return (
     <div className="min-h-screen p-4 xl:ml-72 w-full mt-10 xl:mt-0">
+      <ToastContainer />
       <p className="font-medium text-sm mb-2">Edit Blog</p>
+      <div className="mb-10">
+        <form
+          className="flex"
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (searchText.trim() == "") {
+              toast.error("Please enter a title", {
+                type: "error",
+                autoClose: 1500,
+                closeOnClick: true,
+                pauseOnHover: false,
+              });
+              return;
+            }
+            getBlogData(searchText);
+          }}
+        >
+          <input
+            type="text"
+            placeholder="search for a package"
+            className="py-1 px-4 rounded-l-full"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+          <button
+            type="submit"
+            className="py-1 px-2 text-sm text-white bg-gray-900 hover:scale-105"
+          >
+            Search
+          </button>
+          <button
+            type="button"
+            className="py-1 px-4 text-sm text-white bg-gray-800 rounded-r-full hover:scale-105"
+            onClick={() => {
+              getBlogData();
+              setSearchText("");
+            }}
+          >
+            Clear
+          </button>
+        </form>
+      </div>
       <div className="flex flex-col gap-5">
         {!isLoading &&
-          blogData.map((item) => (
+          paginatedData.map((item) => (
             <div className="p-4 bg-white shadow-md rounded-lg">
               <Blogcard
                 id={item.id}
