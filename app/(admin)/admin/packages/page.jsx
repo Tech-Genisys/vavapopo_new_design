@@ -3,6 +3,7 @@ import { PackageCardSkeleton } from "@/app/(home)/components/cardSkeleton";
 import PackCard from "@/app/(home)/packs/components/PackCard";
 import { db, imageDb } from "@/app/firebase/firebaseinit";
 import AlertDialog from "@/app/helpers/alert_dialog";
+import RevalidationHelper from "@/app/helpers/revalidationHelper";
 import {
   collection,
   getDocs,
@@ -72,6 +73,8 @@ function BookingPage() {
       }
       await deleteDoc(docRef);
       setPackages((prev) => prev.filter((item) => item.id != id));
+      await RevalidationHelper("/packs");
+      if (packData.exclusive) await RevalidationHelper("homepage_exc", "tag");
     } catch (error) {
       console.log(error);
     }
@@ -89,6 +92,7 @@ function BookingPage() {
           return item;
         })
       );
+      await RevalidationHelper("homepage_exc", "tag");
     } catch (error) {
       console.log(error);
     }

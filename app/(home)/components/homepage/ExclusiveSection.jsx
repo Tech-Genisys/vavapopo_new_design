@@ -1,35 +1,12 @@
-"use client";
-import React, { useEffect, useState } from "react";
 import ExclusivePackCarousel from "./ExclusivePack/ExclusivePackCarousel";
-import { collection, getDocs, limit, query, where } from "firebase/firestore";
-import { db } from "@/app/firebase/firebaseinit";
 
-const ExclusiveSection = () => {
-  const [packData, setPackData] = useState([]);
-
-  const fetchPackData = async () => {
-    try {
-      let res = await getDocs(
-        query(collection(db, "packages"), where("exclusive", "==", true))
-      );
-      if (res.empty) {
-        res = await getDocs(collection(db, "packages"), limit(3));
-      }
-      const resList = [];
-      res.docs.forEach((item) => {
-        const data = item.data();
-        resList.push({ ...data, id: item.id });
-      });
-      setPackData(resList);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchPackData();
-  }, []);
-  if (!packData.length) return <div></div>;
+const ExclusiveSection = async () => {
+  const packData = await (
+    await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api`, {
+      next: { tags: "homepage_exc" },
+    })
+  ).json();
+  if (packData.length < 2) return <div></div>;
   return (
     <div className="w-full flex justify-center min-h-screen bg-background py-0 lg:py-24 overflow-hidden">
       <div className="w-full max-w-5xl px-7 py-8 relative flex flex-col items-center">
@@ -54,7 +31,6 @@ const ExclusiveSection = () => {
         </div>
         <div className="flex justify-center z-30">
           <ExclusivePackCarousel itemList={packData} />
-          {/* <ExclusivePackCard /> */}
         </div>
       </div>
     </div>

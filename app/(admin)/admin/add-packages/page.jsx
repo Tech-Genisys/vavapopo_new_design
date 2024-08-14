@@ -7,6 +7,7 @@ import { v4 } from "uuid";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import RevalidationHelper from "@/app/helpers/revalidationHelper";
 
 function PackagesPage() {
   const [data, setData] = useState({
@@ -95,7 +96,7 @@ function PackagesPage() {
         ...data,
         totalDays: daysInput.length + 1,
         days: newDaysData,
-        date: new Date()
+        date: new Date(),
       };
       console.log(jsonData);
       const packageCollection = collection(db, "packages");
@@ -110,6 +111,8 @@ function PackagesPage() {
           router.replace("/admin");
         },
       });
+      await RevalidationHelper("/packs");
+      if (data.exclusive) await RevalidationHelper("homepage_exc", "tag");
     } catch (error) {
       console.log(error);
       setIsSubmitting(false);
