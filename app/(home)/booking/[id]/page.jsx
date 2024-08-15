@@ -63,6 +63,8 @@ export default function Page({ params }) {
         email: Email,
         package: id,
         status: "request",
+        sendFeedbackEmail: false,
+        reviewed: false,
       };
       await addDoc(collection(db, "booking"), bookingData);
       toast.update("booking-toast", {
