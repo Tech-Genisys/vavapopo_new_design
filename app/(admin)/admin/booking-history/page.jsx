@@ -68,7 +68,9 @@ function BookingHistoryPage() {
               id={item.id}
               email={item.email}
               key={item.id}
-              isReq={false}
+              prefferedPackage={item.package}
+              sendFeedbackEmail
+              emailSend={item.sendFeedbackEmail}
             />
           ))
         )}
