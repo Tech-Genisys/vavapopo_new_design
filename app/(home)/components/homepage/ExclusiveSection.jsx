@@ -1,11 +1,13 @@
 import ExclusivePackCarousel from "./ExclusivePack/ExclusivePackCarousel";
 
+export const dynamic = "force-dynamic";
+
 const ExclusiveSection = async () => {
   let packData = [];
   try {
     packData = await (
       await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api`, {
-        next: { tags: "homepage_exc" },
+        next: { tags: ["homepage_exc"] },
       })
     ).json();
   } catch (error) {
