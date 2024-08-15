@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Review Request</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100vh;
+        }
+
+        .flex {
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0px;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            margin-top: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            color: #333;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .bgimage {
+            width: 100%;
+            max-width: 600px;
+            background: black;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .bgimage h1,
+        .bgimage h2 {
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+        }
+
+        .bgimage h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .bgimage h2 {
+            font-size: 30px;
+        }
+
+        .review-section {
+            margin-top: 20px;
+            width: 100%;
+            max-width: 600px;
+            padding: 0 20px;
+        }
+
+        .review-section p {
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .btn {
+            background-color: #4CAF50;
+            border: none;
+            padding: 12px 20px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            border-radius: 2px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        .signature {
+            margin-top: 30px;
+            font-style: italic;
+        }
+
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .bgimage {
+                flex-direction: column-reverse;
+                text-align: center;
+            }
+
+            .bgimage h1 {
+                font-size: 24px;
+            }
+
+            .bgimage h2 {
+                font-size: 20px;
+            }
+
+            .review-section p {
+                font-size: 14px;
+            }
+
+            .btn {
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div class="container">
+            <div class="bgimage">
+                <div class="">
+                    <h2>HOW WAS YOUR</h2>
+                    <h1>EXPERIENCE?</h1>
+                    <button class="btn">WRITE A REVIEW</button>
+                </div>
+                <img src="https://firebasestorage.googleapis.com/v0/b/vavapopo-ad842.appspot.com/o/white.png?alt=media&token=b6643a04-d1b3-43a8-8217-b50c69fa4a52"
+                    alt="" width="200">
+            </div>
+
+            <div class="review-section">
+                <p>Hi {{Name}},</p>
+                <p>You have recently used Chapelle Jewellery.</p>
+                <p>Please help us improve our customer satisfaction by writing a quick review. We would be extremely
+                    grateful.</p>
+                <div class="flex">
+                    <button class="btn">WRITE A REVIEW</button>
+                </div>
+                <p class="signature">Best regards,<br />The VAVAPOPO Team</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
