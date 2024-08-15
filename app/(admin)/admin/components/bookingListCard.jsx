@@ -20,7 +20,8 @@ function BookingListCard({
         {
           email,
           id,
-          subject: "Write a feedback of our service."
+          subject: "Write a feedback of our service.",
+          name,
         },
       ],
       templateId: "d-93d5a7221b7147599446506c9cf13bf2",
