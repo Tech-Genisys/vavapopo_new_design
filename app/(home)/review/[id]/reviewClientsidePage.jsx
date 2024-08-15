@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import Navbar from "../components/navbar";
+import Navbar from "../../components/navbar";
 import {
   Button,
   Input,
@@ -11,15 +11,15 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { useCountries } from "use-react-countries";
-import { addDoc, collection } from "@firebase/firestore";
+import { addDoc, collection, doc, updateDoc } from "@firebase/firestore";
 import { db } from "@/app/firebase/firebaseinit";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
-const Page = () => {
+const ReviewClientsidePage = ({ initName = "", isDone = false, id }) => {
   const { countries } = useCountries();
   const [country, setCountry] = React.useState(0);
-  const [name, setName] = useState("");
+  const [name, setName] = useState(initName);
   const [countryState, setCountryState] = useState("");
   const [description, setDescription] = useState("");
   const [rating, setRating] = useState(3);
@@ -43,6 +43,8 @@ const Page = () => {
       };
 
       await addDoc(collection(db, "review"), data);
+      const docRef = doc(db, "booking", id);
+      await updateDoc(docRef, { reviewed: true });
       toast.update("review-toast", {
         render: "Review successfull",
         type: "success",
@@ -63,29 +65,29 @@ const Page = () => {
     }
   };
 
-  const ThankYou = (
-    <div className="flex flex-col items-center justify-center min-h-screen px-4  sm:py-16">
-      <Navbar />
-      <div className="w-full max-w-4xl p-6 bg-white shadow-xl rounded-xl flex flex-col justify-around  border">
-        <h1 className="text-3xl font-semibold mb-7">
-          Thank You for Your Review!
-        </h1>
-        <p className="">
-          We sincerely appreciate the time you took to provide us with your
-          feedback. Your insights help us to continually improve and serve you
-          better.
-        </p>
-        <p className="mt-3">
-          {`  We're thrilled to hear that you had a positive experience. If you have
+  if (isDone)
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen px-4  sm:py-16">
+        <Navbar />
+        <div className="w-full max-w-4xl p-6 bg-white shadow-xl rounded-xl flex flex-col justify-around  border">
+          <h1 className="text-3xl font-semibold mb-7">
+            Thank You {name} for Your Review!
+          </h1>
+          <p className="">
+            We sincerely appreciate the time you took to provide us with your
+            feedback. Your insights help us to continually improve and serve you
+            better.
+          </p>
+          <p className="mt-3">
+            {`  We're thrilled to hear that you had a positive experience. If you have
           any additional thoughts or questions, please don't hesitate to reach
           out. Thank you once again for your support!`}
-        </p>
-        <p className="mt-5">Best regards,</p>
-        <p className="font-semibold">The Vavapopo Team</p>
+          </p>
+          <p className="mt-5">Best regards,</p>
+          <p className="font-semibold">The Vavapopo Team</p>
+        </div>
       </div>
-    </div>
-  );
-
+    );
   return (
     <div className="flex flex-col items-center justify-center min-h-screen px-4  sm:py-16">
       <Navbar />
@@ -173,4 +175,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default ReviewClientsidePage;
