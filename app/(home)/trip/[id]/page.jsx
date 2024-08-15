@@ -43,8 +43,8 @@ export default async function Page({ params }) {
   }
   return (
     <div className="flex justify-center w-full">
-      <div className="flex flex-col items-center max-w-7xl relative w-full">
-        <Navbar />
+      <Navbar />
+      <div className="flex flex-col items-center max-w-5xl relative w-full">
         <HeroSlideSction data={data} />
         <TripCoustoSearch id={id} />
         <Daysection data={data.days} />

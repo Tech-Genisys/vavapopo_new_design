@@ -90,8 +90,8 @@ export default function Page({ params }) {
   return (
     <div className="flex justify-center w-full">
       <ToastContainer />
+      <Navbar />
       <div className="flex flex-col items-center max-w-7xl relative w-full">
-        <Navbar />
         <div className="h-screen w-full flex justify-center items-center ">
           <div className=" h-[500px] min-w-[250px] w-full max-w-xl rounded-2xl shadow flex flex-col px-5 py-16 items-center justify-between relative">
             <Typography variant="h2">Get your quote</Typography>
