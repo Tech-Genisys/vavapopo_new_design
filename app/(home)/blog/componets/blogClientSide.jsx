@@ -90,7 +90,10 @@ const BlogClientPage = ({
       <Navbar />
       <div className="flex flex-col items-center w-full min-h-[600px] py-10">
         <>
-          <div className=" mt-12 md:mt-20 w-full px-2 py-8 max-w-5xl">
+          <h1 className="text-4xl font-semibold mt-20 text-center md:text-left ">
+            Explore our latest stories
+          </h1>
+          <div className=" mt-2 md:mt-3 w-full px-2 py-8 max-w-5xl">
             {blogData ? (
               blogData.map((item) => (
                 <Blogcard
