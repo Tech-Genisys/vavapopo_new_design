@@ -122,6 +122,19 @@ function Sidenav() {
                 Edit Blog
               </li>
             </Link>
+            <Link
+              href="/admin/notification"
+              onClick={() => setToggleNav(false)}
+            >
+              <li
+                className={`py-3 px-4 rounded-md hover:bg-gray-100 ${
+                  pathName == "/admin/notification" &&
+                  "bg-gradient-to-b from-gray-800 to-gray-900 text-white"
+                }`}
+              >
+                Notification settings
+              </li>
+            </Link>
           </ul>
           <div className="mt-20 flex justify-center">
             <button
