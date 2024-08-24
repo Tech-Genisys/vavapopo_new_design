@@ -21,8 +21,8 @@ function Navbar() {
         <Image
           width={100}
           height={50}
-          src="/navbar/logo_bg.png"
-          className="w-[80px]  lg:w-[100px]"
+          src="/navbar/white.png"
+          className="w-[60px]"
         />
         {/* <Image width={100} height={50} src="/navbar/white.png" className="w-[40px]  lg:w-[45px]"/> */}
       </Link>
