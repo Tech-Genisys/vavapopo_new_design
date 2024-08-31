@@ -10,7 +10,7 @@ const getAllPackageUrls = async () => {
     const data = item.data();
     packagesUrl.push({
       url: `${process.env.NEXT_PUBLIC_DOMAIN}/trip/${item.id}`,
-      lastModified: data.date,
+      lastModified: data.date.toDate(),
       changeFrequency: "yearly",
       priority: 1,
     });
@@ -26,7 +26,7 @@ const getAllBlogsUrls = async () => {
     const data = item.data();
     blogsUrl.push({
       url: `${process.env.NEXT_PUBLIC_DOMAIN}/blog/${item.id}`,
-      lastModified: data.date,
+      lastModified: data.date.toDate(),
       changeFrequency: "monthly",
       priority: 1,
     });
