@@ -26,6 +26,7 @@ export async function generateMetadata({ params }) {
   const data = await getBlogData(id);
   return {
     title: data.blogTitle,
+    description: data.description,
     openGraph: {
       images: data.coverImage.url,
     },
