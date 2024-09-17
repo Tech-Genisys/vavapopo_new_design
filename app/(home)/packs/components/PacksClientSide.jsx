@@ -120,7 +120,6 @@ const PacksClientSide = ({
       ) : (
         <PackSection packs={packData} />
       )}
-      <p>{totalCount}</p>
       {packData.length < totalCount && (
         <div className="flex justify-center mb-10">
           <button

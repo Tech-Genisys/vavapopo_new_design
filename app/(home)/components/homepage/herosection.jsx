@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Navbar from "../navbar";
 import { useTypewriter, Cursor } from "react-simple-typewriter";
+import Link from "next/link";
 function Herosection() {
   const [text, helper] = useTypewriter({
     words: [
@@ -91,9 +92,11 @@ function Herosection() {
           data-aos="zoom-in"
           data-aos-durtaion="1000"
         >
-          <button className="py-2 px-16 bg-foreground rounded-md text-white font-semibold animate-bounce hover:bg-green-700 border border-black border-opacity-10">
-            Explore
-          </button>
+          <Link href="/packs">
+            <button className="py-2 px-16 bg-foreground rounded-md text-white font-semibold animate-bounce hover:bg-green-700 border border-black border-opacity-10">
+              Explore
+            </button>
+          </Link>
         </div>
         <Image
           priority
