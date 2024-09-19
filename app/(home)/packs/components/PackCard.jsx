@@ -145,7 +145,7 @@ const PackCard = ({
           </div>
           <Link href={`/trip/${id}`} className="w-full md:w-fit">
             <Button
-              color="amber"
+              color="green"
               variant="gradient"
               className="text-white font-bold w-full"
             >
