@@ -62,6 +62,12 @@ function BookingPage() {
   };
 
   const deletePackFunc = async (id) => {
+    toast.info("Deleting package....", {
+      toastId: "pkg-del-toast",
+      autoClose: false,
+      theme: "colored",
+      closeOnClick: false,
+    });
     try {
       const docRef = doc(db, "packages", id);
       const packData = (await getDoc(docRef)).data();
@@ -74,9 +80,23 @@ function BookingPage() {
       await deleteDoc(docRef);
       setPackages((prev) => prev.filter((item) => item.id != id));
       await RevalidationHelper("/packs");
+      toast.update("pkg-del-toast", {
+        render: "Package deleted successfully",
+        type: "success",
+        autoClose: 1000,
+        theme: "colored",
+        closeOnClick: true,
+      });
       if (packData.exclusive) await RevalidationHelper("homepage_exc", "tag");
     } catch (error) {
       console.log(error);
+      toast.update("pkg-del-toast", {
+        render: "Failed to delete package",
+        type: "error",
+        autoClose: 1000,
+        theme: "colored",
+        closeOnClick: true,
+      });
     }
   };
 
@@ -102,6 +122,7 @@ function BookingPage() {
   }, []);
   return (
     <div className="min-h-screen p-4 xl:ml-72 w-full mt-10 xl:mt-0">
+      <ToastContainer />
       <p className="font-medium text-sm mb-2">Edit package</p>
       <div className="bg-white w-fit flex rounded-full border-black border">
         <form

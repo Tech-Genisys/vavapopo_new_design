@@ -117,7 +117,7 @@ function EditPage({ params }) {
       theme: "colored",
       closeOnClick: false,
     });
-    const newDaysData = [];
+    let newDaysData = [];
     for (let i = 0; i < daysData.length; i++) {
       const images = daysData[i].images;
       const existingImg = daysData[i].existingImage;
@@ -130,6 +130,10 @@ function EditPage({ params }) {
       }
       newDaysData.push({ ...daysData[i], images: imageUrls });
     }
+    newDaysData = newDaysData.map((item) => {
+      delete item.deletedImage;
+      return item;
+    });
     const jsonData = {
       packageTitle: packageData.packageTitle,
       startingPrice: packageData.startingPrice,
