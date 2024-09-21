@@ -88,12 +88,12 @@ function Herosection() {
         </div> */}
 
         <div
-          className="flex justify-center z-10"
+          className="flex justify-center z-20 relative"
           data-aos="zoom-in"
           data-aos-durtaion="1000"
         >
           <Link href="/packs">
-            <button className="py-2 px-16 bg-foreground rounded-md text-white font-semibold animate-bounce hover:bg-green-700 border border-black border-opacity-10">
+            <button className="py-2 px-16 z-40 bg-foreground rounded-md text-white font-semibold animate-bounce hover:bg-green-700 border border-black border-opacity-10">
               Explore
             </button>
           </Link>
@@ -103,7 +103,7 @@ function Herosection() {
           src="/hero/base.png"
           width={1000}
           height={1000}
-          className="w-full h-fit absolute bottom-0"
+          className="w-full h-fit absolute bottom-0 z-10"
         />
       </div>
       <div className="absolute translate-x-1/2 mr-6 bottom-16 sm:hidden">
